@@ -15,6 +15,20 @@
       "kind": "html",
       "contentPath": "0001-df25c277-950b-4a57-87f7-c6615a4a9fd8.html",
       "promptSource": "message"
+    },
+    {
+      "id": "9e08632b-98ad-4974-bcb9-a57c04ef1465",
+      "fileName": "ui_kits/app/index.html",
+      "version": 2,
+      "label": "Version 2",
+      "createdAt": 1783301676471,
+      "source": "ai",
+      "prompt": "Audit this design system for readiness. Check DESIGN.md, brand.json, variables.css, theme.json, kit.html, kit.dark.html, generated artifacts, palette contrast, typography specimens, spacing/radius rules, and component coverage. Fix the highest-impact issues directly, keep the same registered design system id, and report remaining gaps before publishing or using it in other projects.",
+      "size": 11187,
+      "mime": "text/html; charset=utf-8",
+      "kind": "html",
+      "contentPath": "0002-9e08632b-98ad-4974-bcb9-a57c04ef1465.html",
+      "promptSource": "message"
     }
   ]
 }

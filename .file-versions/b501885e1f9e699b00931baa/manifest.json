@@ -29,6 +29,20 @@
       "kind": "html",
       "contentPath": "0002-83a160bf-132d-47dd-8765-94ac09b81730.html",
       "promptSource": "message"
+    },
+    {
+      "id": "2b2797af-ff2b-46fb-b497-e648aa05442d",
+      "fileName": "register.html",
+      "version": 3,
+      "label": "Version 3",
+      "createdAt": 1783301676471,
+      "source": "ai",
+      "prompt": "Audit this design system for readiness. Check DESIGN.md, brand.json, variables.css, theme.json, kit.html, kit.dark.html, generated artifacts, palette contrast, typography specimens, spacing/radius rules, and component coverage. Fix the highest-impact issues directly, keep the same registered design system id, and report remaining gaps before publishing or using it in other projects.",
+      "size": 14412,
+      "mime": "text/html; charset=utf-8",
+      "kind": "html",
+      "contentPath": "0003-2b2797af-ff2b-46fb-b497-e648aa05442d.html",
+      "promptSource": "message"
     }
   ]
 }

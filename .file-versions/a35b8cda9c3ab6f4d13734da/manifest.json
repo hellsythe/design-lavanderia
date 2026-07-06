@@ -15,6 +15,20 @@
       "kind": "html",
       "contentPath": "0001-be96ae58-3a11-4a36-a129-571a7c0bd83e.html",
       "promptSource": "message"
+    },
+    {
+      "id": "d6bdd7be-c45a-49cc-a33c-37e6fa3827ec",
+      "fileName": "preview/spacing-tokens.html",
+      "version": 2,
+      "label": "Version 2",
+      "createdAt": 1783301676471,
+      "source": "ai",
+      "prompt": "Audit this design system for readiness. Check DESIGN.md, brand.json, variables.css, theme.json, kit.html, kit.dark.html, generated artifacts, palette contrast, typography specimens, spacing/radius rules, and component coverage. Fix the highest-impact issues directly, keep the same registered design system id, and report remaining gaps before publishing or using it in other projects.",
+      "size": 9606,
+      "mime": "text/html; charset=utf-8",
+      "kind": "html",
+      "contentPath": "0002-d6bdd7be-c45a-49cc-a33c-37e6fa3827ec.html",
+      "promptSource": "message"
     }
   ]
 }

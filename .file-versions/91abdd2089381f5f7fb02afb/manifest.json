@@ -15,6 +15,20 @@
       "kind": "html",
       "contentPath": "0001-f12bc020-4122-4472-b11e-30a66fe1a025.html",
       "promptSource": "message"
+    },
+    {
+      "id": "91881160-5b8f-489e-9bfe-15ca01128d26",
+      "fileName": "preview/typography-specimens.html",
+      "version": 2,
+      "label": "Version 2",
+      "createdAt": 1783301676471,
+      "source": "ai",
+      "prompt": "Audit this design system for readiness. Check DESIGN.md, brand.json, variables.css, theme.json, kit.html, kit.dark.html, generated artifacts, palette contrast, typography specimens, spacing/radius rules, and component coverage. Fix the highest-impact issues directly, keep the same registered design system id, and report remaining gaps before publishing or using it in other projects.",
+      "size": 10764,
+      "mime": "text/html; charset=utf-8",
+      "kind": "html",
+      "contentPath": "0002-91881160-5b8f-489e-9bfe-15ca01128d26.html",
+      "promptSource": "message"
     }
   ]
 }

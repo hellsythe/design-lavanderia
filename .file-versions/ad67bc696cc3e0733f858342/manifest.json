@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "fileName": "kit.html",
+  "entries": [
+    {
+      "id": "209c15d0-c75c-4334-89d5-9186d430ad3b",
+      "fileName": "kit.html",
+      "version": 1,
+      "label": "Version 1",
+      "createdAt": 1783301676467,
+      "source": "ai",
+      "prompt": "Audit this design system for readiness. Check DESIGN.md, brand.json, variables.css, theme.json, kit.html, kit.dark.html, generated artifacts, palette contrast, typography specimens, spacing/radius rules, and component coverage. Fix the highest-impact issues directly, keep the same registered design system id, and report remaining gaps before publishing or using it in other projects.",
+      "size": 327,
+      "mime": "text/html; charset=utf-8",
+      "kind": "html",
+      "contentPath": "0001-209c15d0-c75c-4334-89d5-9186d430ad3b.html",
+      "promptSource": "message"
+    }
+  ]
+}

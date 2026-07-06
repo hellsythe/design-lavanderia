@@ -15,6 +15,20 @@
       "kind": "html",
       "contentPath": "0001-507cfbdc-a85b-44cb-b03a-b910244568a0.html",
       "promptSource": "message"
+    },
+    {
+      "id": "fe340d02-fa0f-4d0b-b811-9079b41840d5",
+      "fileName": "preview/colors-primary.html",
+      "version": 2,
+      "label": "Version 2",
+      "createdAt": 1783301676470,
+      "source": "ai",
+      "prompt": "Audit this design system for readiness. Check DESIGN.md, brand.json, variables.css, theme.json, kit.html, kit.dark.html, generated artifacts, palette contrast, typography specimens, spacing/radius rules, and component coverage. Fix the highest-impact issues directly, keep the same registered design system id, and report remaining gaps before publishing or using it in other projects.",
+      "size": 9677,
+      "mime": "text/html; charset=utf-8",
+      "kind": "html",
+      "contentPath": "0002-fe340d02-fa0f-4d0b-b811-9079b41840d5.html",
+      "promptSource": "message"
     }
   ]
 }
