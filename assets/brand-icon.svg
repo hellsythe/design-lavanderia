@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none">
+  <!-- LavanderPro brand icon — water drop shape on teal background -->
+  <rect width="32" height="32" rx="8" fill="#0F766E"/>
+  <path d="M16 4C16 4 8 13 8 18a8 8 0 0016 0C24 13 16 4 16 4z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12 19a5 5 0 008 0" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"/>
+</svg>

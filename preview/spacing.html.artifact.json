@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "preview/spacing.html",
+  "entry": "preview/spacing.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-07-05T13:46:37.018Z",
+  "updatedAt": "2026-07-05T13:46:37.018Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

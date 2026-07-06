@@ -1,0 +1,11 @@
+{
+  "kind": "critique-panel",
+  "score": 5,
+  "axes": {
+    "clarity":    { "score": 5, "notes": "KPI strip → pedidos → ingresos/ciclo → historial: flujo de urgente a histórico bien definido. Modal de detalle claro. Skip link añadido; aria-live en ambas tablas; estados vacíos con icono + texto." },
+    "hierarchy":  { "score": 5, "notes": "Un punto focal por zona. Sidebar como ancla de navegación; KPIs dominan el primer scroll. Sin competencia visual. Hover lift en KPI cards refuerza interactividad sin ruido." },
+    "typography": { "score": 5, "notes": "Public Sans 400/500/600/700. Numerales tabulares en datos. Display 28px KPI con letter-spacing -0.02em; revenue-total 30px -0.03em; cycle-value 44px -0.04em. text-wrap:pretty en títulos. ALL-CAPS tracking 0.07em en etiquetas." },
+    "motion":     { "score": 4, "notes": "Sidebar/filtros transition:0.12–0.22s. KPI card hover lift 0.15s. Botones con :active press translateY(1px). Sin animaciones de entrada de datos — correcto para dashboard operativo v1." },
+    "brand":      { "score": 5, "notes": "Acento teal #0D9488 aplicado con economía: brand icon, nav activo, focus-visible ring, barra progreso ciclo, count clientes, barras 'hoy' en chart. Sin wash de color. Identidad coherente." }
+  }
+}

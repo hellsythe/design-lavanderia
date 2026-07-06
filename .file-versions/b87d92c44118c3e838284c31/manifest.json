@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "fileName": "onboarding.html",
+  "entries": [
+    {
+      "id": "456c0efc-f7d1-4d8a-a2dc-1ff30438eb32",
+      "fileName": "onboarding.html",
+      "version": 1,
+      "label": "Version 1",
+      "createdAt": 1783277640424,
+      "source": "ai",
+      "prompt": "[form answers — onboarding-clarify]\n- Nombre del archivo: onboarding.html\n- ¿Guardar el avance en localStorage por si el usuario recarga?: false\n- ¿A dónde redirige al terminar?: Dashboard (index.html) [value: dashboard]\n- Modo de verificación WhatsApp: Simular envío de código (demo) [value: demo]",
+      "size": 32900,
+      "mime": "text/html; charset=utf-8",
+      "kind": "html",
+      "contentPath": "0001-456c0efc-f7d1-4d8a-a2dc-1ff30438eb32.html",
+      "promptSource": "message"
+    },
+    {
+      "id": "46f6474c-9509-4597-9360-7059ce842b44",
+      "fileName": "onboarding.html",
+      "version": 2,
+      "label": "Version 2",
+      "createdAt": 1783281590967,
+      "source": "ai",
+      "prompt": "veo que en el onboard el label de colonia y el de ciudad esta pegado al input de calle y numero, por que?",
+      "size": 32929,
+      "mime": "text/html; charset=utf-8",
+      "kind": "html",
+      "contentPath": "0002-46f6474c-9509-4597-9360-7059ce842b44.html",
+      "promptSource": "message"
+    },
+    {
+      "id": "e5b76962-6621-4d00-a4dd-5466f2f121e5",
+      "fileName": "onboarding.html",
+      "version": 3,
+      "label": "Version 3",
+      "createdAt": 1783281863051,
+      "source": "ai",
+      "prompt": "que no valide nada, por ahora solo me interesa el diseño, quiero que avanze sin validar",
+      "size": 32525,
+      "mime": "text/html; charset=utf-8",
+      "kind": "html",
+      "contentPath": "0003-e5b76962-6621-4d00-a4dd-5466f2f121e5.html",
+      "promptSource": "message"
+    }
+  ]
+}

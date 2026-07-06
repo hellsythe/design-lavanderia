@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Components — Github Dashboard Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F0F4F8; --surface: #FFFFFF; --surface-2: #F8FAFC;
+      --fg: #1A2332; --muted: #64748B; --border: #E1E8F0;
+      --accent: #0D9488; --accent-soft: #CCFBF1;
+      --success: #059669; --success-soft: #D1FAE5;
+      --warning: #D97706; --warning-soft: #FEF3C7;
+      --danger: #DC2626; --danger-soft: #FEE2E2;
+      --info: #2563EB; --info-soft: #DBEAFE;
+      --purple: #7C3AED; --purple-soft: #EDE9FE;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Public Sans', system-ui, sans-serif;
+      background: var(--bg); color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+      padding: 40px 32px;
+    }
+    nav { margin-bottom: 32px; }
+    nav a { font-size: 12px; color: var(--accent); text-decoration: none; }
+    h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
+    .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 36px; }
+    .section-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.09em; color: var(--muted);
+      margin-bottom: 14px; margin-top: 32px;
+    }
+    .comp-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 20px 24px; margin-bottom: 12px;
+    }
+    .comp-card h3 { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 16px; }
+    .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .col { display: flex; flex-direction: column; gap: 10px; }
+
+    /* === KPI Cards === */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px,1fr)); gap: 12px; }
+    .kpi-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow);
+      position: relative; overflow: hidden;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .kpi-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.10),0 1px 3px rgba(0,0,0,.06); transform: translateY(-2px); }
+    .kpi-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-bottom: 10px; text-wrap: pretty; }
+    .kpi-icon { position: absolute; top: 14px; right: 14px; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; }
+    .kpi-value { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--fg); letter-spacing: -0.02em; line-height: 1; margin-bottom: 8px; }
+    .kpi-delta { display: flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 600; }
+    .kpi-delta.up { color: var(--success); }
+    .kpi-delta.down { color: var(--danger); }
+    .kpi-delta.neutral { color: var(--muted); }
+
+    /* === Pills === */
+    .pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+    .pill-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .pill.proceso   { background: var(--warning-soft); color: var(--warning); }
+    .pill.proceso   .pill-dot { background: var(--warning); }
+    .pill.listo     { background: var(--success-soft); color: var(--success); }
+    .pill.listo     .pill-dot { background: var(--success); }
+    .pill.pendiente { background: var(--info-soft);    color: var(--info);    }
+    .pill.pendiente .pill-dot { background: var(--info); }
+    .pill.entregado { background: var(--surface-2);    color: var(--muted);   border: 1px solid var(--border); }
+    .pill.entregado .pill-dot { background: var(--muted); }
+
+    /* === Filter Pills === */
+    .filter-group { display: flex; gap: 3px; background: var(--bg); padding: 3px; border-radius: 8px; }
+    .filter-pill { padding: 4px 10px; border-radius: 6px; font-size: 11.5px; font-weight: 600; cursor: pointer; border: none; background: none; color: var(--muted); font-family: inherit; transition: background 0.12s, color 0.12s; }
+    .filter-pill.active { background: var(--surface); color: var(--fg); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+
+    /* === Period Buttons === */
+    .period-group { display: flex; gap: 2px; }
+    .period-btn { padding: 4px 9px; font-size: 11.5px; font-weight: 600; border: none; background: none; color: var(--muted); cursor: pointer; border-radius: 6px; font-family: inherit; transition: background 0.12s, color 0.12s; }
+    .period-btn.active { background: var(--accent-soft); color: var(--accent); }
+
+    /* === Icon Buttons === */
+    .icon-btn { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); display: grid; place-items: center; cursor: pointer; color: var(--muted); transition: background 0.12s, color 0.12s; }
+    .icon-btn:hover { background: var(--bg); color: var(--fg); }
+    .icon-btn:active { transform: translateY(1px); }
+    .icon-btn svg { width: 15px; height: 15px; }
+
+    /* === Search Input === */
+    .search-input { padding: 5px 10px; border: 1px solid var(--border); border-radius: 7px; font-size: 12px; outline: none; background: var(--surface-2); color: var(--fg); font-family: inherit; width: 200px; transition: border-color 0.15s; }
+    .search-input:focus { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px rgba(13,148,136,.12); }
+
+    /* === Nav Badge === */
+    .nav-badge { background: var(--warning); color: #fff; border-radius: 999px; padding: 1px 7px; font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    /* === Table === */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); padding: 12px 16px 10px; text-align: left; white-space: nowrap; }
+    tbody tr { border-top: 1px solid var(--border); transition: background 0.1s; cursor: pointer; }
+    tbody tr:hover { background: var(--surface-2); }
+    tbody td { padding: 11px 16px; color: var(--fg); font-variant-numeric: tabular-nums; }
+    .td-mono { font-family: ui-monospace,'Cascadia Code',Menlo,monospace; font-size: 12px; color: var(--muted); }
+    .td-bold { font-weight: 700; }
+    .td-muted { color: var(--muted); }
+
+    /* === Progress Track === */
+    .progress-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 2px; background: var(--accent); }
+
+    /* === Bar Chart === */
+    .bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 88px; }
+    .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+    .bar { width: 100%; background: var(--border); border-radius: 4px 4px 0 0; min-height: 3px; }
+    .bar.today { background: var(--accent); }
+    .bar-day { font-size: 9.5px; color: var(--muted); font-variant-numeric: tabular-nums; font-weight: 600; }
+
+    /* === Empty State === */
+    .empty-state { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px; color: var(--muted); }
+    .empty-state svg { opacity: .3; }
+    .empty-state p { font-size: 13px; font-weight: 500; }
+
+    /* === Pagination === */
+    .pagination-bar {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .pagination-info { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .pagination-actions { display: flex; align-items: center; gap: 8px; }
+    .pagination-btn {
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--fg);
+      font-size: 12px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s, transform 0.12s;
+    }
+    .pagination-btn:hover:not(:disabled) { background: var(--bg); }
+    .pagination-btn:disabled { opacity: 0.5; cursor: not-allowed; color: var(--muted); }
+    .pagination-btn:active:not(:disabled) { transform: translateY(1px); }
+
+    /* === User Avatar === */
+    .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; font-size: 12px; font-weight: 700; color: #fff; }
+    .client-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); display: grid; place-items: center; font-size: 10px; font-weight: 700; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<nav><a href="index.html">← Volver al índice</a></nav>
+<h1>Components</h1>
+<p class="subtitle">Catálogo completo de componentes — Github Dashboard Design System</p>
+
+<!-- KPI Cards -->
+<div class="section-label">KPI Cards</div>
+<div class="kpi-grid">
+  <div class="kpi-card">
+    <div class="kpi-label">Pedidos Activos</div>
+    <div class="kpi-icon" style="background:var(--warning-soft)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="var(--warning)" stroke-width="1.8" width="17" height="17"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 5h6M5 8h6M5 11h4"/></svg>
+    </div>
+    <div class="kpi-value">24</div>
+    <div class="kpi-delta up">↑ +3 vs. ayer</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Ingresos Hoy</div>
+    <div class="kpi-icon" style="background:var(--success-soft)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="var(--success)" stroke-width="1.8" width="17" height="17"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v1M8 11v.5M5.5 9.5a2.5 2.5 0 005 0c0-1.38-1.12-2.5-2.5-2.5S5.5 6.12 5.5 8"/></svg>
+    </div>
+    <div class="kpi-value">$4,280</div>
+    <div class="kpi-delta up">↑ +12% vs. ayer</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Ciclo Promedio</div>
+    <div class="kpi-icon" style="background:var(--purple-soft)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="var(--purple)" stroke-width="1.8" width="17" height="17"><circle cx="8" cy="8" r="6.5"/><path d="M8 4v4l2.5 2"/></svg>
+    </div>
+    <div class="kpi-value">38 <span style="font-size:14px;font-weight:500;color:var(--muted)">min</span></div>
+    <div class="kpi-delta neutral">Meta: 35 min</div>
+  </div>
+</div>
+
+<!-- Status Pills -->
+<div class="section-label">Status Pills</div>
+<div class="comp-card">
+  <div class="row">
+    <span class="pill proceso"><span class="pill-dot"></span>En proceso</span>
+    <span class="pill listo"><span class="pill-dot"></span>Listo</span>
+    <span class="pill pendiente"><span class="pill-dot"></span>Pendiente</span>
+    <span class="pill entregado"><span class="pill-dot"></span>Entregado</span>
+  </div>
+</div>
+
+<!-- Filter & Period Pills -->
+<div class="section-label">Filter Pills & Period Buttons</div>
+<div class="comp-card">
+  <h3>Filter pills (tab-style)</h3>
+  <div class="row">
+    <div class="filter-group">
+      <button class="filter-pill active">Todos</button>
+      <button class="filter-pill">En proceso</button>
+      <button class="filter-pill">Listos</button>
+      <button class="filter-pill">Pendientes</button>
+    </div>
+  </div>
+  <div style="margin-top:16px">
+    <h3>Period buttons</h3>
+    <div style="margin-top:10px">
+      <div class="period-group">
+        <button class="period-btn active">Día</button>
+        <button class="period-btn">Semana</button>
+        <button class="period-btn">Mes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Icon Buttons & Nav Badge -->
+<div class="section-label">Icon Buttons & Badges</div>
+<div class="comp-card">
+  <div class="row">
+    <button class="icon-btn" title="Notificaciones">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15"><path d="M8 1a5 5 0 015 5v3l1.5 2.5H1.5L3 9V6a5 5 0 015-5z"/><path d="M6.5 13.5a1.5 1.5 0 003 0"/></svg>
+    </button>
+    <button class="icon-btn" title="Actualizar">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15"><path d="M13.5 2.5A7 7 0 112 9"/><path d="M2 4V9h5"/></svg>
+    </button>
+    <span style="font-size:13px;color:var(--muted)">Nav badge:</span>
+    <span class="nav-badge">24</span>
+  </div>
+</div>
+
+<!-- Search Input -->
+<div class="section-label">Search Input</div>
+<div class="comp-card">
+  <input class="search-input" type="search" placeholder="Buscar cliente u orden…">
+</div>
+
+<!-- Progress Track -->
+<div class="section-label">Progress Track</div>
+<div class="comp-card">
+  <div style="margin-bottom:8px;font-size:12px;color:var(--muted)">63% — 38 min de 60 min meta</div>
+  <div class="progress-track"><div class="progress-fill" style="width:63%"></div></div>
+  <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px"><span>0</span><span>Meta 35 min</span><span>60 min</span></div>
+</div>
+
+<!-- Bar Chart -->
+<div class="section-label">Bar Chart (Revenue)</div>
+<div class="comp-card">
+  <div class="bar-chart">
+    <div class="bar-col"><div class="bar" style="height:75%"></div><span class="bar-day">Lu</span></div>
+    <div class="bar-col"><div class="bar" style="height:89%"></div><span class="bar-day">Ma</span></div>
+    <div class="bar-col"><div class="bar" style="height:96%"></div><span class="bar-day">Mi</span></div>
+    <div class="bar-col"><div class="bar" style="height:82%"></div><span class="bar-day">Ju</span></div>
+    <div class="bar-col"><div class="bar" style="height:91%"></div><span class="bar-day">Vi</span></div>
+    <div class="bar-col"><div class="bar" style="height:65%"></div><span class="bar-day">Sa</span></div>
+    <div class="bar-col"><div class="bar today" style="height:100%"></div><span class="bar-day">Hoy</span></div>
+  </div>
+</div>
+
+<!-- Data Table -->
+<div class="section-label">Data Table</div>
+<div class="comp-card" style="padding:0">
+  <div style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr>
+          <th>N° ORDEN</th><th>CLIENTE</th><th>SERVICIO</th><th>KG</th><th>ESTADO</th><th>ENTRADA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-mono">ORD-2847</td>
+          <td class="td-bold">Hotel Presidente</td>
+          <td class="td-muted">Lavado Industrial</td>
+          <td class="td-muted" style="text-align:right">42</td>
+          <td><span class="pill proceso"><span class="pill-dot"></span>En proceso</span></td>
+          <td class="td-mono">08:15</td>
+        </tr>
+        <tr>
+          <td class="td-mono">ORD-2848</td>
+          <td class="td-bold">Rest. La Hacienda</td>
+          <td class="td-muted">Lavado + Secado</td>
+          <td class="td-muted" style="text-align:right">18</td>
+          <td><span class="pill listo"><span class="pill-dot"></span>Listo</span></td>
+          <td class="td-mono">07:45</td>
+        </tr>
+        <tr>
+          <td class="td-mono">ORD-2849</td>
+          <td class="td-bold">Spa Relax Center</td>
+          <td class="td-muted">Lavado Delicado</td>
+          <td class="td-muted" style="text-align:right">12</td>
+          <td><span class="pill pendiente"><span class="pill-dot"></span>Pendiente</span></td>
+          <td class="td-mono">09:00</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Pagination -->
+<div class="section-label">Pagination</div>
+<div class="comp-card" style="padding:0">
+  <div style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr><th>NOMBRE</th><th>CATEGORÍA</th><th>PRECIO</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="td-bold">Básico</td><td class="td-muted">Servicios generales</td><td class="td-muted" style="text-align:right">$12</td></tr>
+        <tr><td class="td-bold">Blanqueamiento</td><td class="td-muted">Servicios generales</td><td class="td-muted" style="text-align:right">$18</td></tr>
+        <tr><td class="td-bold">Centrifugado</td><td class="td-muted">Servicios generales</td><td class="td-muted" style="text-align:right">$8</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination-bar">
+    <span class="pagination-info">Mostrando 1–3 de 12 servicios · Página 1 de 4</span>
+    <div class="pagination-actions">
+      <button type="button" class="pagination-btn" disabled>Anterior</button>
+      <button type="button" class="pagination-btn">Siguiente</button>
+    </div>
+  </div>
+</div>
+
+<!-- Empty State -->
+<div class="section-label">Empty State</div>
+<div class="comp-card">
+  <div class="empty-state">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6">
+      <rect x="4" y="4" width="24" height="24" rx="4"/>
+      <path d="M10 10h12M10 16h12M10 22h8"/>
+    </svg>
+    <p>Sin pedidos en este estado</p>
+  </div>
+</div>
+
+<!-- Avatars -->
+<div class="section-label">Avatars</div>
+<div class="comp-card">
+  <div class="row">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="user-avatar">CR</div>
+      <div>
+        <div style="font-size:13px;font-weight:700">C. Rodríguez</div>
+        <div style="font-size:11px;color:var(--muted)">Administrador</div>
+      </div>
+    </div>
+    <div style="width:1px;height:36px;background:var(--border)"></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="client-avatar">HP</div>
+      <div>
+        <div style="font-size:13px;font-weight:600">Hotel Presidente</div>
+        <div style="font-size:11px;color:var(--muted)">Último pedido: Hoy 09:10</div>
+      </div>
+      <div style="margin-left:auto;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--accent)">48 pedidos</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

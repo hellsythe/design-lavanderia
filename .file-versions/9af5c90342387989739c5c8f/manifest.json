@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "fileName": "categories.html",
+  "entries": [
+    {
+      "id": "ff7949f3-2dc3-4037-857a-5d20e0b546fc",
+      "fileName": "categories.html",
+      "version": 1,
+      "label": "Version 1",
+      "createdAt": 1783274646077,
+      "source": "ai",
+      "prompt": "Agrega una nueva vista de Categorias, al crearl las categorias el modal solo tendra nombre",
+      "size": 33535,
+      "mime": "text/html; charset=utf-8",
+      "kind": "html",
+      "contentPath": "0001-ff7949f3-2dc3-4037-857a-5d20e0b546fc.html",
+      "promptSource": "message"
+    },
+    {
+      "id": "68932e32-db72-4a34-9f6b-c348fe929529",
+      "fileName": "categories.html",
+      "version": 2,
+      "label": "Version 2",
+      "createdAt": 1783275234661,
+      "source": "ai",
+      "prompt": "si hazlo, pero tambien estoy notando que en la vista de categorias no esta la paginacion y no esta input de buscar, por que no? no esta estandarizado?",
+      "size": 39011,
+      "mime": "text/html; charset=utf-8",
+      "kind": "html",
+      "contentPath": "0002-68932e32-db72-4a34-9f6b-c348fe929529.html",
+      "promptSource": "message"
+    }
+  ]
+}

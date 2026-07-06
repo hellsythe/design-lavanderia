@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Typography — Github Dashboard Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F0F4F8; --surface: #FFFFFF; --surface-2: #F8FAFC;
+      --fg: #1A2332; --muted: #64748B; --border: #E1E8F0;
+      --accent: #0D9488; --accent-soft: #CCFBF1;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Public Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+      padding: 40px 32px;
+    }
+    nav { margin-bottom: 32px; }
+    nav a { font-size: 12px; color: var(--accent); text-decoration: none; }
+    h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
+    .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 36px; }
+    .section-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.09em; color: var(--muted);
+      margin-bottom: 12px; margin-top: 32px;
+    }
+    .type-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 16px 20px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 8px;
+    }
+    .type-sample { flex: 1; min-width: 0; }
+    .type-meta { flex-shrink: 0; text-align: right; }
+    .type-meta-size { font-size: 11px; color: var(--muted); font-family: ui-monospace, Menlo, monospace; }
+    .type-meta-desc { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+    /* Display samples */
+    .s-kpi     { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; line-height: 1; }
+    .s-revenue { font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.03em; line-height: 1; }
+    .s-cycle   { font-size: 44px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.04em; line-height: 1; }
+    .s-brand   { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
+    .s-title   { font-size: 15px; font-weight: 700; }
+    .s-card    { font-size: 13px; font-weight: 700; }
+    .s-nav     { font-size: 13.5px; font-weight: 500; }
+    .s-body    { font-size: 13px; font-weight: 400; }
+    .s-label   { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+    .s-meta    { font-size: 11.5px; font-weight: 500; color: var(--muted); }
+    .s-badge   { font-size: 11px; font-weight: 700; }
+    .s-mono    { font-size: 12px; font-family: ui-monospace, 'Cascadia Code', Menlo, monospace; color: var(--muted); }
+
+    /* Tracking demo */
+    .tracking-demo {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+      margin-top: 12px;
+    }
+    .tracking-item { text-align: center; }
+    .tracking-value { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--fg); line-height: 1; margin-bottom: 8px; }
+    .tracking-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+    .tracking-detail { font-size: 10px; color: var(--muted); font-family: ui-monospace, Menlo, monospace; margin-top: 2px; }
+  </style>
+</head>
+<body>
+
+<nav><a href="index.html">← Volver al índice</a></nav>
+
+<h1>Typography</h1>
+<p class="subtitle">Escala tipográfica completa — Public Sans 400/500/600/700</p>
+
+<div class="section-label">Display Scale — Numerics with Negative Tracking</div>
+
+<div class="type-row">
+  <div class="type-sample"><span class="s-kpi">24</span></div>
+  <div class="type-meta">
+    <div class="type-meta-size">28px · 700 · −0.02em</div>
+    <div class="type-meta-desc">Display KPI — valores de tarjeta KPI</div>
+  </div>
+</div>
+
+<div class="type-row">
+  <div class="type-sample"><span class="s-revenue">$4,280</span></div>
+  <div class="type-meta">
+    <div class="type-meta-size">30px · 700 · −0.03em</div>
+    <div class="type-meta-desc">Display Revenue — total de ingresos</div>
+  </div>
+</div>
+
+<div class="type-row">
+  <div class="type-sample"><span class="s-cycle">38</span></div>
+  <div class="type-meta">
+    <div class="type-meta-size">44px · 700 · −0.04em</div>
+    <div class="type-meta-desc">Display Cycle — tiempo de ciclo héroe</div>
+  </div>
+</div>
+
+<div class="section-label">UI Scale</div>
+
+<div class="type-row">
+  <div class="type-sample"><span class="s-brand">LavanderPro</span></div>
+  <div class="type-meta">
+    <div class="type-meta-size">15px · 700 · −0.01em</div>
+    <div class="type-meta-desc">Brand name — sidebar</div>
+  </div>
+</div>
+
+<div class="type-row">
+  <div class="type-sample"><span class="s-title">Panel Principal</span></div>
+  <div class="type-meta">
+    <div class="type-meta-size">15px · 700</div>
+    <div class="type-meta-desc">Page title — topbar</div>
+  </div>
+</div>
+
+<div class="type-row">
+  <div class="type-sample"><span class="s-card">Pedidos en Proceso</span></div>
+  <div class="type-meta">
+    <div class="type-meta-size">13px · 700</div>
+    <div class="type-meta-desc">Card title — encabezados de tarjeta</div>
+  </div>
+</div>
+
+<div class="type-row">
+  <div class="type-sample"><span class="s-nav">Historial de Órdenes</span></div>
+  <div class="type-meta">
+    <div class="type-meta-size">13.5px · 500</div>
+    <div class="type-meta-desc">Body / nav — texto de navegación, celdas</div>
+  </div>
+</div>
+
+<div class="type-row">
+  <div class="type-sample"><span class="s-body">Hotel Presidente — Lavado Industrial</span></div>
+  <div class="type-meta">
+    <div class="type-meta-size">13px · 400</div>
+    <div class="type-meta-desc">Body small — copia general de UI</div>
+  </div>
+</div>
+
+<div class="type-row">
+  <div class="type-sample"><span class="s-label">Pedidos Activos</span></div>
+  <div class="type-meta">
+    <div class="type-meta-size">10–10.5px · 700 · ALL-CAPS · 0.07em</div>
+    <div class="type-meta-desc">Label — etiquetas KPI, encabezados tabla</div>
+  </div>
+</div>
+
+<div class="type-row">
+  <div class="type-sample"><span class="s-meta">+12% vs. ayer · Este mes</span></div>
+  <div class="type-meta">
+    <div class="type-meta-size">11–12px · 500/600</div>
+    <div class="type-meta-desc">Meta / caption — fechas, breadcrumbs, delta</div>
+  </div>
+</div>
+
+<div class="type-row">
+  <div class="type-sample"><span class="s-badge">En proceso</span></div>
+  <div class="type-meta">
+    <div class="type-meta-size">11px · 700</div>
+    <div class="type-meta-desc">Badge — pills de estado, badges de nav</div>
+  </div>
+</div>
+
+<div class="type-row">
+  <div class="type-sample"><span class="s-mono">ORD-2847 · 08:15 · 09:30</span></div>
+  <div class="type-meta">
+    <div class="type-meta-size">12px · mono · tabular-nums</div>
+    <div class="type-meta-desc">Monospace — IDs de orden, timestamps</div>
+  </div>
+</div>
+
+<div class="section-label">Tracking Progression — Negative letter-spacing scales with size</div>
+<div class="tracking-demo">
+  <div class="tracking-item">
+    <div class="tracking-value" style="font-size:28px;letter-spacing:-0.02em">847</div>
+    <div class="tracking-label">KPI Value</div>
+    <div class="tracking-detail">28px · −0.02em</div>
+  </div>
+  <div class="tracking-item">
+    <div class="tracking-value" style="font-size:30px;letter-spacing:-0.03em">$25,580</div>
+    <div class="tracking-label">Revenue</div>
+    <div class="tracking-detail">30px · −0.03em</div>
+  </div>
+  <div class="tracking-item">
+    <div class="tracking-value" style="font-size:44px;letter-spacing:-0.04em">38</div>
+    <div class="tracking-label">Cycle Time</div>
+    <div class="tracking-detail">44px · −0.04em</div>
+  </div>
+</div>
+
+</body>
+</html>

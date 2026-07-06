@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Components: Buttons & Controls — Github Dashboard Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F0F4F8; --surface: #FFFFFF; --surface-2: #F8FAFC;
+      --fg: #1A2332; --muted: #64748B; --border: #E1E8F0;
+      --accent: #0F766E; --accent-soft: #CCFBF1;
+      --success: #059669; --success-soft: #D1FAE5;
+      --warning: #B45309; --warning-soft: #FEF3C7;
+      --danger: #DC2626; --danger-soft: #FEE2E2;
+      --info: #2563EB; --info-soft: #DBEAFE;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Public Sans', system-ui, sans-serif;
+      background: var(--bg); color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+      padding: 40px 32px;
+    }
+    nav { margin-bottom: 32px; }
+    nav a { font-size: 12px; color: var(--accent); text-decoration: none; }
+    h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
+    .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 36px; }
+    .section-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.09em; color: var(--muted);
+      margin-bottom: 14px; margin-top: 32px;
+    }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 20px 24px; margin-bottom: 12px;
+    }
+    .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+    /* Filter Pills */
+    .filter-group { display: flex; gap: 3px; background: var(--bg); padding: 3px; border-radius: 8px; }
+    .filter-pill { padding: 4px 10px; border-radius: 6px; font-size: 11.5px; font-weight: 600; cursor: pointer; border: none; background: none; color: var(--muted); font-family: inherit; transition: background 0.12s, color 0.12s; }
+    .filter-pill.active { background: var(--surface); color: var(--fg); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+    .filter-pill:active { transform: translateY(1px); }
+
+    /* Period Buttons */
+    .period-group { display: flex; gap: 2px; }
+    .period-btn { padding: 4px 9px; font-size: 11.5px; font-weight: 600; border: none; background: none; color: var(--muted); cursor: pointer; border-radius: 6px; font-family: inherit; transition: background 0.12s, color 0.12s; }
+    .period-btn.active { background: var(--accent-soft); color: var(--accent); }
+    .period-btn:active { transform: translateY(1px); }
+
+    /* Icon Buttons */
+    .icon-btn { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); display: grid; place-items: center; cursor: pointer; color: var(--muted); transition: background 0.12s, color 0.12s; position: relative; }
+    .icon-btn:hover { background: var(--bg); color: var(--fg); }
+    .icon-btn:active { transform: translateY(1px); }
+    .icon-btn svg { width: 15px; height: 15px; }
+    .notif-dot { position: absolute; top: 6px; right: 6px; width: 7px; height: 7px; background: var(--warning); border-radius: 50%; border: 1.5px solid var(--surface); }
+
+    /* Modal Close */
+    .modal-close { width: 28px; height: 28px; border-radius: 7px; border: 1px solid var(--border); background: var(--surface-2); color: var(--muted); cursor: pointer; display: grid; place-items: center; font-size: 17px; line-height: 1; font-family: inherit; }
+    .modal-close:hover { background: var(--bg); }
+    .modal-close:active { transform: scale(.93); }
+
+    /* Search Input */
+    .search-input { padding: 5px 10px; border: 1px solid var(--border); border-radius: 7px; font-size: 12px; outline: none; background: var(--surface-2); color: var(--fg); font-family: inherit; width: 200px; transition: border-color 0.15s; }
+    .search-input:focus { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px rgba(15,118,110,.12); }
+
+    /* Status Pills */
+    .pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+    .pill-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .pill.proceso   { background: var(--warning-soft); color: var(--warning); }
+    .pill.proceso   .pill-dot { background: var(--warning); }
+    .pill.listo     { background: var(--success-soft); color: var(--success); }
+    .pill.listo     .pill-dot { background: var(--success); }
+    .pill.pendiente { background: var(--info-soft);    color: var(--info); }
+    .pill.pendiente .pill-dot { background: var(--info); }
+    .pill.entregado { background: var(--surface-2);    color: var(--muted); border: 1px solid var(--border); }
+    .pill.entregado .pill-dot { background: var(--muted); }
+
+    /* Nav Badge */
+    .nav-badge { background: var(--warning); color: #fff; border-radius: 999px; padding: 1px 7px; font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    /* State table */
+    .state-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .state-table th { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); padding: 0 0 10px; text-align: left; }
+    .state-table td { padding: 10px 0; border-top: 1px solid var(--border); vertical-align: middle; }
+    .state-label { font-size: 11px; color: var(--muted); }
+    .focus-demo { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<nav><a href="index.html">← Volver al índice</a></nav>
+<h1>Components: Buttons & Controls</h1>
+<p class="subtitle">Todos los controles interactivos — estados, variantes, tamaños y focus rings</p>
+
+<!-- Filter Pills -->
+<div class="section-label">Filter Pills — Tab-style group (source: .filter-group, .filter-pill)</div>
+<div class="card">
+  <div class="row">
+    <div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:6px;font-weight:600">Todos los estados</div>
+      <div class="filter-group">
+        <button class="filter-pill active">Todos</button>
+        <button class="filter-pill">En proceso</button>
+        <button class="filter-pill">Listos</button>
+        <button class="filter-pill">Pendientes</button>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:6px;font-weight:600">Sin selección activa</div>
+      <div class="filter-group">
+        <button class="filter-pill">Todos</button>
+        <button class="filter-pill">En proceso</button>
+        <button class="filter-pill">Listos</button>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:12px;font-size:11px;color:var(--muted)">
+    Group bg: <code style="font-family:ui-monospace,Menlo,monospace">--bg</code> · Active: white bg + <code style="font-family:ui-monospace,Menlo,monospace">box-shadow: 0 1px 2px rgba(0,0,0,.08)</code> · Press: <code style="font-family:ui-monospace,Menlo,monospace">translateY(1px)</code>
+  </div>
+</div>
+
+<!-- Period Buttons -->
+<div class="section-label">Period Buttons — Revenue chart switcher (source: .period-btn)</div>
+<div class="card">
+  <div class="row">
+    <div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:6px;font-weight:600">Día activo</div>
+      <div class="period-group">
+        <button class="period-btn active">Día</button>
+        <button class="period-btn">Semana</button>
+        <button class="period-btn">Mes</button>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:6px;font-weight:600">Semana activa</div>
+      <div class="period-group">
+        <button class="period-btn">Día</button>
+        <button class="period-btn active">Semana</button>
+        <button class="period-btn">Mes</button>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:12px;font-size:11px;color:var(--muted)">
+    Active: <code style="font-family:ui-monospace,Menlo,monospace">background: --accent-soft; color: --accent</code> · 11.5px 600
+  </div>
+</div>
+
+<!-- Icon Buttons -->
+<div class="section-label">Icon Buttons — Topbar actions (source: .icon-btn)</div>
+<div class="card">
+  <div class="row">
+    <div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:6px;font-weight:600">Default</div>
+      <button class="icon-btn">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 1a5 5 0 015 5v3l1.5 2.5H1.5L3 9V6a5 5 0 015-5z"/><path d="M6.5 13.5a1.5 1.5 0 003 0"/></svg>
+      </button>
+    </div>
+    <div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:6px;font-weight:600">Con notif. dot</div>
+      <button class="icon-btn">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 1a5 5 0 015 5v3l1.5 2.5H1.5L3 9V6a5 5 0 015-5z"/><path d="M6.5 13.5a1.5 1.5 0 003 0"/></svg>
+        <span class="notif-dot"></span>
+      </button>
+    </div>
+    <div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:6px;font-weight:600">Refresh</div>
+      <button class="icon-btn">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13.5 2.5A7 7 0 112 9"/><path d="M2 4V9h5"/></svg>
+      </button>
+    </div>
+    <div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:6px;font-weight:600">Modal close</div>
+      <button class="modal-close">×</button>
+    </div>
+  </div>
+  <div style="margin-top:12px;font-size:11px;color:var(--muted)">
+    34px × 34px · 8px radius · border: 1px --border · Hover: <code style="font-family:ui-monospace,Menlo,monospace">--bg</code> bg · Press: <code style="font-family:ui-monospace,Menlo,monospace">translateY(1px)</code>
+  </div>
+</div>
+
+<!-- Search Input -->
+<div class="section-label">Search Input — History filter (source: .search-input)</div>
+<div class="card">
+  <div class="row">
+    <div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:6px;font-weight:600">Default</div>
+      <input class="search-input" type="search" placeholder="Buscar cliente u orden…" style="border-color:var(--border);box-shadow:none">
+    </div>
+    <div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:6px;font-weight:600">Focus</div>
+      <input class="search-input focus-demo" type="search" placeholder="Buscar cliente u orden…" style="border-color:var(--accent);background:var(--surface)">
+    </div>
+  </div>
+  <div style="margin-top:12px;font-size:11px;color:var(--muted)">
+    Width: 190px desktop · 140px mobile · Focus glow: <code style="font-family:ui-monospace,Menlo,monospace">box-shadow: 0 0 0 3px rgba(15,118,110,.12)</code>
+  </div>
+</div>
+
+<!-- Status Pills -->
+<div class="section-label">Status Pills — Order states (source: .pill, .pill-dot)</div>
+<div class="card">
+  <div class="row">
+    <span class="pill proceso"><span class="pill-dot"></span>En proceso</span>
+    <span class="pill listo"><span class="pill-dot"></span>Listo</span>
+    <span class="pill pendiente"><span class="pill-dot"></span>Pendiente</span>
+    <span class="pill entregado"><span class="pill-dot"></span>Entregado</span>
+  </div>
+  <div style="margin-top:12px;font-size:11px;color:var(--muted)">
+    11px · 700 · 3px 9px padding · 999px radius · Always pair dot color = text color
+  </div>
+</div>
+
+<!-- Nav Badge -->
+<div class="section-label">Nav Badge — Unread count (source: .nav-badge)</div>
+<div class="card">
+  <div class="row">
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:7px;background:var(--surface-2);border:1px solid var(--border)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="var(--muted)" stroke-width="1.8" width="15" height="15"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 5h6M5 8h6M5 11h4"/></svg>
+      <span style="font-size:13.5px;font-weight:500;color:var(--muted)">Pedidos</span>
+      <span class="nav-badge">24</span>
+    </div>
+  </div>
+  <div style="margin-top:12px;font-size:11px;color:var(--muted)">
+    Background: <code style="font-family:ui-monospace,Menlo,monospace">--warning</code> · 11px · 700 · tabular-nums
+  </div>
+</div>
+
+<!-- Focus Ring -->
+<div class="section-label">Focus Ring — Global :focus-visible (source: :focus-visible)</div>
+<div class="card">
+  <div class="row">
+    <button class="filter-pill focus-demo active" style="background:var(--surface);color:var(--fg);box-shadow:0 1px 2px rgba(0,0,0,.08)">Filter focused</button>
+    <button class="icon-btn focus-demo">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13.5 2.5A7 7 0 112 9"/><path d="M2 4V9h5"/></svg>
+    </button>
+    <input class="search-input focus-demo" type="search" placeholder="Input focused" style="border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 3px rgba(15,118,110,.12)">
+  </div>
+  <div style="margin-top:12px;font-size:11px;color:var(--muted)">
+    <code style="font-family:ui-monospace,Menlo,monospace">outline: 2px solid var(--accent); outline-offset: 2px</code> · Search gets additional <code style="font-family:ui-monospace,Menlo,monospace">box-shadow</code> glow
+  </div>
+</div>
+
+</body>
+</html>

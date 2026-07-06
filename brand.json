@@ -1,0 +1,54 @@
+{
+  "name": "Github Dashboard Design System",
+  "id": "user:github-dashboard-design-system",
+  "sourceProject": "c3b8a464-8510-4a9f-8f01-7d1b4aa05745",
+  "product": "LavanderPro",
+  "productContext": "Industrial and commercial laundry management dashboard",
+  "language": "es-MX",
+  "critiqueScore": 5,
+  "palette": {
+    "background": "#F0F4F8",
+    "surface": "#FFFFFF",
+    "surfaceSecondary": "#F8FAFC",
+    "foreground": "#1A2332",
+    "muted": "#64748B",
+    "border": "#E1E8F0",
+    "accent": "#0F766E",
+    "accentSoft": "#CCFBF1",
+    "success": "#059669",
+    "successSoft": "#D1FAE5",
+    "warning": "#B45309",
+    "warningSoft": "#FEF3C7",
+    "danger": "#DC2626",
+    "dangerSoft": "#FEE2E2",
+    "info": "#2563EB",
+    "infoSoft": "#DBEAFE",
+    "purple": "#7C3AED",
+    "purpleSoft": "#EDE9FE"
+  },
+  "typography": {
+    "family": "Public Sans",
+    "weights": [400, 500, 600, 700],
+    "fallbackStack": "system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "monoStack": "ui-monospace, 'Cascadia Code', Menlo, monospace",
+    "baseSize": "14px"
+  },
+  "layout": {
+    "sidebarWidth": "256px",
+    "topbarHeight": "56px",
+    "baseRadius": "10px",
+    "baselineGrid": "8px"
+  },
+  "files": {
+    "designSystemDoc": "DESIGN.md",
+    "tokensCss": "colors_and_type.css",
+    "variablesCss": "variables.css",
+    "brandJson": "brand.json",
+    "themeJson": "theme.json",
+    "skill": "SKILL.md",
+    "readme": "README.md",
+    "previewLauncher": "preview/index.html",
+    "uiKitLauncher": "ui_kits/app/index.html",
+    "appliedSurface": "ui_kits/app/dashboard.html"
+  }
+}

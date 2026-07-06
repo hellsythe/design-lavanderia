@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "fileName": "login.html",
+  "entries": [
+    {
+      "id": "5dfe0e8d-a228-4944-a8e6-58b431f0a175",
+      "fileName": "login.html",
+      "version": 1,
+      "label": "Version 1",
+      "createdAt": 1783261975323,
+      "source": "ai",
+      "prompt": "apruebo el plan",
+      "size": 13813,
+      "mime": "text/html; charset=utf-8",
+      "kind": "html",
+      "contentPath": "0001-5dfe0e8d-a228-4944-a8e6-58b431f0a175.html",
+      "promptSource": "message"
+    }
+  ]
+}

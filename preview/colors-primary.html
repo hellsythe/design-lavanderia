@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Colors — Github Dashboard Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F0F4F8; --surface: #FFFFFF; --surface-2: #F8FAFC;
+      --fg: #1A2332; --muted: #64748B; --border: #E1E8F0;
+      --accent: #0F766E; --accent-soft: #CCFBF1;
+      --success: #059669; --success-soft: #D1FAE5;
+      --warning: #B45309; --warning-soft: #FEF3C7;
+      --danger: #DC2626; --danger-soft: #FEE2E2;
+      --info: #2563EB; --info-soft: #DBEAFE;
+      --purple: #7C3AED; --purple-soft: #EDE9FE;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Public Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+      padding: 40px 32px;
+    }
+    nav { margin-bottom: 32px; }
+    nav a { font-size: 12px; color: var(--accent); text-decoration: none; }
+    nav a:hover { text-decoration: underline; }
+    h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
+    .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 36px; }
+    .section-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.09em; color: var(--muted);
+      margin-bottom: 12px; margin-top: 32px;
+    }
+    .section-label:first-of-type { margin-top: 0; }
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .swatch {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,.06);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .swatch-color { height: 72px; }
+    .swatch-info { padding: 10px 12px; }
+    .swatch-name { font-size: 11.5px; font-weight: 700; color: var(--fg); }
+    .swatch-hex { font-size: 10.5px; color: var(--muted); font-family: ui-monospace, Menlo, monospace; margin-top: 2px; }
+    .swatch-token { font-size: 10px; color: var(--muted); font-family: ui-monospace, Menlo, monospace; margin-top: 2px; opacity: .7; }
+    .pair-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .pair {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow: var(--shadow);
+      display: flex;
+    }
+    .pair-solid { flex: 1; height: 56px; }
+    .pair-soft  { flex: 1; height: 56px; }
+    .pair-label {
+      padding: 8px 12px;
+      background: var(--surface);
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--border);
+    }
+    .pair-label span { font-size: 11px; font-weight: 700; }
+    .pair-label code { font-size: 10px; font-family: ui-monospace, Menlo, monospace; color: var(--muted); }
+
+    /* Accent economy demo */
+    .accent-demo {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px 24px;
+      margin-bottom: 8px;
+    }
+    .accent-demo h3 { font-size: 13px; font-weight: 700; margin-bottom: 14px; }
+    .accent-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .accent-chip {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 11.5px;
+      color: var(--muted);
+      background: var(--surface-2);
+    }
+    .accent-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+    .accent-chip.active { background: var(--accent-soft); color: var(--accent); border-color: transparent; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<nav><a href="index.html">← Volver al índice</a></nav>
+
+<h1>Colors</h1>
+<p class="subtitle">Paleta completa del sistema de diseño Github Dashboard — LavanderPro</p>
+
+<div class="section-label">Canvas & Surfaces</div>
+<div class="swatch-grid">
+  <div class="swatch">
+    <div class="swatch-color" style="background:#F0F4F8"></div>
+    <div class="swatch-info">
+      <div class="swatch-name">Background</div>
+      <div class="swatch-hex">#F0F4F8</div>
+      <div class="swatch-token">--bg</div>
+    </div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-color" style="background:#FFFFFF;border-bottom:1px solid #E1E8F0"></div>
+    <div class="swatch-info">
+      <div class="swatch-name">Surface</div>
+      <div class="swatch-hex">#FFFFFF</div>
+      <div class="swatch-token">--surface</div>
+    </div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-color" style="background:#F8FAFC;border-bottom:1px solid #E1E8F0"></div>
+    <div class="swatch-info">
+      <div class="swatch-name">Surface 2</div>
+      <div class="swatch-hex">#F8FAFC</div>
+      <div class="swatch-token">--surface-2</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Foreground & Structure</div>
+<div class="swatch-grid">
+  <div class="swatch">
+    <div class="swatch-color" style="background:#1A2332"></div>
+    <div class="swatch-info">
+      <div class="swatch-name">Foreground</div>
+      <div class="swatch-hex">#1A2332</div>
+      <div class="swatch-token">--fg</div>
+    </div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-color" style="background:#64748B"></div>
+    <div class="swatch-info">
+      <div class="swatch-name">Muted</div>
+      <div class="swatch-hex">#64748B</div>
+      <div class="swatch-token">--muted</div>
+    </div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-color" style="background:#E1E8F0"></div>
+    <div class="swatch-info">
+      <div class="swatch-name">Border</div>
+      <div class="swatch-hex">#E1E8F0</div>
+      <div class="swatch-token">--border</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Brand Accent — Teal (use sparingly)</div>
+<div class="swatch-grid">
+  <div class="swatch">
+    <div class="swatch-color" style="background:#0F766E"></div>
+    <div class="swatch-info">
+      <div class="swatch-name">Accent</div>
+      <div class="swatch-hex">#0F766E</div>
+      <div class="swatch-token">--accent</div>
+    </div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-color" style="background:#CCFBF1"></div>
+    <div class="swatch-info">
+      <div class="swatch-name">Accent Soft</div>
+      <div class="swatch-hex">#CCFBF1</div>
+      <div class="swatch-token">--accent-soft</div>
+    </div>
+  </div>
+</div>
+
+<div class="accent-demo">
+  <h3>Acento en contexto — puntos de aplicación permitidos</h3>
+  <div class="accent-row">
+    <div class="accent-chip active">
+      <div class="accent-dot"></div>Nav activo
+    </div>
+    <div class="accent-chip">
+      <div class="accent-dot"></div>Focus ring
+    </div>
+    <div class="accent-chip">
+      <div class="accent-dot"></div>Barra progreso
+    </div>
+    <div class="accent-chip">
+      <div class="accent-dot"></div>Contador clientes
+    </div>
+    <div class="accent-chip">
+      <div class="accent-dot"></div>Barra "hoy"
+    </div>
+    <div class="accent-chip">
+      <div class="accent-dot"></div>Icono brand
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Semantic Status Colors (solid + soft pairs)</div>
+<div class="pair-grid">
+  <div>
+    <div class="pair">
+      <div class="pair-solid" style="background:#059669"></div>
+      <div class="pair-soft"  style="background:#D1FAE5"></div>
+    </div>
+    <div class="pair-label" style="background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px">
+      <span>Success</span>
+      <code>#059669 / #D1FAE5</code>
+    </div>
+  </div>
+  <div>
+    <div class="pair">
+      <div class="pair-solid" style="background:#B45309"></div>
+      <div class="pair-soft"  style="background:#FEF3C7"></div>
+    </div>
+    <div class="pair-label" style="background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px">
+      <span>Warning</span>
+      <code>#B45309 / #FEF3C7</code>
+    </div>
+  </div>
+  <div>
+    <div class="pair">
+      <div class="pair-solid" style="background:#DC2626"></div>
+      <div class="pair-soft"  style="background:#FEE2E2"></div>
+    </div>
+    <div class="pair-label" style="background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px">
+      <span>Danger</span>
+      <code>#DC2626 / #FEE2E2</code>
+    </div>
+  </div>
+  <div>
+    <div class="pair">
+      <div class="pair-solid" style="background:#2563EB"></div>
+      <div class="pair-soft"  style="background:#DBEAFE"></div>
+    </div>
+    <div class="pair-label" style="background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px">
+      <span>Info</span>
+      <code>#2563EB / #DBEAFE</code>
+    </div>
+  </div>
+  <div>
+    <div class="pair">
+      <div class="pair-solid" style="background:#7C3AED"></div>
+      <div class="pair-soft"  style="background:#EDE9FE"></div>
+    </div>
+    <div class="pair-label" style="background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px">
+      <span>Purple (KPI ciclo únicamente)</span>
+      <code>#7C3AED / #EDE9FE</code>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

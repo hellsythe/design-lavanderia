@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "register.html",
+  "entry": "register.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-07-05T14:32:04.556Z",
+  "updatedAt": "2026-07-05T14:32:04.556Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

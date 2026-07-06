@@ -1,0 +1,1571 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nuevo pedido — LavanderPro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* === TOKENS ============================================================ */
+    :root {
+      --bg:           #F0F4F8;
+      --surface:      #FFFFFF;
+      --surface-2:    #F8FAFC;
+      --fg:           #1A2332;
+      --muted:        #64748B;
+      --border:       #E1E8F0;
+      --accent:       #0D9488;
+      --accent-soft:  #CCFBF1;
+      --success:      #059669;
+      --success-soft: #D1FAE5;
+      --warning:      #D97706;
+      --warning-soft: #FEF3C7;
+      --danger:       #DC2626;
+      --danger-soft:  #FEE2E2;
+      --info:         #2563EB;
+      --info-soft:    #DBEAFE;
+      --purple:       #7C3AED;
+      --purple-soft:  #EDE9FE;
+      --sidebar-w:    256px;
+      --topbar-h:     56px;
+      --radius:       10px;
+      --shadow:       0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    }
+
+    /* === RESET ============================================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 14px; }
+    body {
+      font-family: 'Public Sans', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* === LAYOUT ============================================================ */
+    .app {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      grid-template-rows: var(--topbar-h) 1fr;
+      min-height: 100vh;
+    }
+
+    /* === SIDEBAR =========================================================== */
+    .sidebar {
+      grid-row: 1 / -1;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 100;
+      transition: transform 0.22s ease;
+    }
+    .sidebar-brand {
+      padding: 0 20px;
+      height: var(--topbar-h);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .brand-icon {
+      width: 32px; height: 32px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .brand-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--fg);
+      letter-spacing: -0.01em;
+    }
+    .brand-tag {
+      font-size: 10px;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+    .sidebar-nav { padding: 12px 8px; flex: 1; }
+    .nav-section { margin-bottom: 20px; }
+    .nav-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 12px;
+      margin-bottom: 4px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 7px;
+      color: var(--muted);
+      font-size: 13.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      text-decoration: none;
+    }
+    .nav-item:hover { background: var(--bg); color: var(--fg); }
+    .nav-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+    .nav-item svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .nav-badge {
+      margin-left: auto;
+      background: var(--warning);
+      color: #fff;
+      border-radius: 999px;
+      padding: 1px 7px;
+      font-size: 11px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .sidebar-footer {
+      padding: 12px 8px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .user-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 7px;
+    }
+    .user-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .user-name { font-size: 13px; font-weight: 700; color: var(--fg); }
+    .user-role { font-size: 11px; color: var(--muted); }
+
+    /* === TOPBAR ============================================================ */
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 10px; }
+    .page-title { font-size: 15px; font-weight: 700; color: var(--fg); }
+    .breadcrumb { font-size: 12px; color: var(--muted); }
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+    .topbar-date { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .icon-btn {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: var(--muted);
+      transition: background 0.12s, color 0.12s;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .icon-btn:hover { background: var(--bg); color: var(--fg); }
+    .icon-btn svg { width: 15px; height: 15px; }
+    .btn-new-order {
+      padding: 6px 12px;
+      border-radius: 7px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+      transition: background 0.12s, transform 0.12s;
+    }
+    .btn-new-order:hover { background: #0F766E; }
+    .btn-new-order:active { transform: translateY(1px); }
+    .btn-new-order svg { width: 14px; height: 14px; }
+    .btn-new-order:disabled { opacity: 0.7; cursor: not-allowed; }
+    .btn-secondary {
+      padding: 6px 12px;
+      border-radius: 7px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+      transition: background 0.12s, color 0.12s, transform 0.12s;
+    }
+    .btn-secondary:hover { background: var(--bg); color: var(--fg); }
+    .btn-secondary:active { transform: translateY(1px); }
+    .btn-secondary svg { width: 14px; height: 14px; }
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .notif-dot {
+      position: absolute;
+      top: 6px; right: 6px;
+      width: 7px; height: 7px;
+      background: var(--warning);
+      border-radius: 50%;
+      border: 1.5px solid var(--surface);
+    }
+    .hamburger { display: none; }
+
+    /* === MAIN ============================================================== */
+    .main {
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    /* === MAIN GRID ========================================================= */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    .left-col  { display: flex; flex-direction: column; gap: 16px; }
+    .right-col { display: flex; flex-direction: column; gap: 16px; }
+
+    /* === CARD ============================================================== */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .card-head {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .card-title { font-size: 13px; font-weight: 700; color: var(--fg); text-wrap: pretty; }
+    .card-meta { font-size: 11.5px; color: var(--muted); }
+    .card-body { padding: 16px; }
+
+    /* === SECTION LABELS ==================================================== */
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--muted);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    /* === FORM INPUTS ======================================================= */
+    .form-input, .form-textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: var(--surface-2);
+      color: var(--fg);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--muted); }
+    .form-input:hover, .form-textarea:hover { border-color: #CBD5E1; }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--accent);
+      background: var(--surface);
+      box-shadow: 0 0 0 3px rgba(13,148,136,.12);
+    }
+    .form-input.error { border-color: var(--danger); background: var(--danger-soft); }
+    .form-textarea { min-height: 80px; resize: vertical; }
+
+    /* === CLIENT SEARCH ===================================================== */
+    .client-search-wrap { position: relative; }
+    .client-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.10), 0 1px 3px rgba(0,0,0,.06);
+      max-height: 220px;
+      overflow-y: auto;
+      z-index: 50;
+      display: none;
+    }
+    .client-dropdown.open { display: block; }
+    .client-option {
+      padding: 10px 12px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+    }
+    .client-option:last-child { border-bottom: none; }
+    .client-option:hover, .client-option.active { background: var(--surface-2); }
+    .client-option-name { font-size: 13px; font-weight: 600; color: var(--fg); }
+    .client-option-meta { font-size: 11.5px; color: var(--muted); }
+    .client-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 5px 10px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .client-tag button {
+      background: none;
+      border: none;
+      color: var(--accent);
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      display: grid;
+      place-items: center;
+    }
+    .client-tag button:hover { color: var(--fg); }
+
+    /* === SERVICES ========================================================== */
+    .service-list { display: flex; flex-direction: column; gap: 10px; }
+    .service-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      cursor: pointer;
+      transition: border-color 0.12s, background 0.12s;
+    }
+    .service-card:hover { border-color: #CBD5E1; }
+    .service-card.selected {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .service-check {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 5px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      transition: background 0.12s, border-color 0.12s;
+    }
+    .service-card.selected .service-check {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .service-check svg { width: 11px; height: 11px; color: #fff; display: none; }
+    .service-card.selected .service-check svg { display: block; }
+    .service-info { flex: 1; min-width: 0; }
+    .service-name { font-size: 13px; font-weight: 700; color: var(--fg); }
+    .service-desc { font-size: 12px; color: var(--muted); }
+    .service-price { font-size: 13px; font-weight: 700; color: var(--fg); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      opacity: 0.4;
+      pointer-events: none;
+      transition: opacity 0.12s;
+    }
+    .service-card.selected .stepper { opacity: 1; pointer-events: auto; }
+    .stepper button {
+      width: 26px;
+      height: 26px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--fg);
+      border-radius: 6px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      transition: background 0.12s;
+    }
+    .stepper button:hover { background: var(--bg); }
+    .stepper input {
+      width: 38px;
+      height: 26px;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface-2);
+      color: var(--fg);
+      font-size: 13px;
+      font-weight: 700;
+      font-family: inherit;
+      -moz-appearance: textfield;
+    }
+    .stepper input::-webkit-outer-spin-button,
+    .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+    /* === SERVICE TABS ====================================================== */
+    .service-tabs {
+      display: inline-flex;
+      gap: 2px;
+      background: var(--bg);
+      padding: 3px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    .service-tab {
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--muted);
+      transition: background 0.12s, color 0.12s;
+      font-family: inherit;
+    }
+    .service-tab:hover { color: var(--fg); }
+    .service-tab.active {
+      background: var(--surface);
+      color: var(--fg);
+      box-shadow: 0 1px 2px rgba(0,0,0,.08);
+    }
+    .service-tab[aria-selected="true"] { font-weight: 700; }
+
+    /* === SERVICE SEARCH ==================================================== */
+    .service-search {
+      padding: 5px 10px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      font-size: 12px;
+      outline: none;
+      background: var(--surface-2);
+      color: var(--fg);
+      font-family: inherit;
+      width: 170px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .service-search:hover { border-color: #CBD5E1; }
+    .service-search:focus {
+      border-color: var(--accent);
+      background: var(--surface);
+      box-shadow: 0 0 0 3px rgba(13,148,136,.12);
+    }
+    .service-search::placeholder { color: var(--muted); }
+
+    /* === SERVICE ACCORDION ================================================= */
+    .service-accordion { display: flex; flex-direction: column; gap: 8px; }
+    .accordion-item {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    .accordion-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 11px 12px;
+      border: none;
+      background: var(--surface);
+      color: var(--fg);
+      font-size: 13px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.12s;
+      text-align: left;
+    }
+    .accordion-header:hover { background: var(--surface-2); }
+    .accordion-icon {
+      width: 16px;
+      height: 16px;
+      color: var(--muted);
+      transition: transform 0.15s;
+    }
+    .accordion-header[aria-expanded="true"] .accordion-icon { transform: rotate(180deg); }
+    .accordion-body {
+      display: none;
+      padding: 0 12px 12px;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .accordion-body.open { display: flex; }
+    .accordion-count {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-left: auto;
+      padding-right: 8px;
+    }
+
+    /* === SERVICE EMPTY ===================================================== */
+    .service-empty {
+      text-align: center;
+      padding: 24px 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* === SUMMARY =========================================================== */
+    .summary-card { position: sticky; top: 72px; }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-row.total {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--fg);
+      padding-top: 14px;
+      padding-bottom: 4px;
+    }
+    .summary-label { color: var(--muted); }
+    .summary-value { font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums; }
+    .summary-empty {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .summary-service {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12.5px;
+      padding: 4px 0;
+      color: var(--fg);
+    }
+    .summary-service small { color: var(--muted); }
+
+    /* === ALERT ============================================================= */
+    .alert {
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: none;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .alert.show { display: flex; }
+    .alert-error { background: var(--danger-soft); color: var(--danger); }
+    .alert svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    /* === MODAL ============================================================= */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,.45);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      padding: 16px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--surface);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 24px 64px rgba(0,0,0,.2);
+      overflow: hidden;
+    }
+    .modal-head {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-title { font-size: 14px; font-weight: 700; color: var(--fg); }
+    .modal-close {
+      width: 28px; height: 28px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--muted);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 17px;
+      line-height: 1;
+      font-family: inherit;
+    }
+    .modal-close:hover { background: var(--bg); }
+    .modal-body { padding: 20px; }
+    .modal-success { text-align: center; }
+    .modal-success .modal-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--success-soft);
+      color: var(--success);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 16px;
+    }
+    .modal-success .modal-icon svg { width: 28px; height: 28px; }
+    .modal-success .modal-title { font-size: 18px; margin-bottom: 6px; }
+    .modal-success .modal-text { font-size: 13.5px; color: var(--muted); margin-bottom: 20px; }
+    .modal-order {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 20px;
+    }
+
+    /* === MODAL FORM ======================================================== */
+    .modal-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group .section-label { margin-bottom: 0; }
+    .form-hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: -4px;
+    }
+    .form-error {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--danger);
+      display: none;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .form-error.show { display: flex; }
+    .form-error svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 8px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* === MOBILE SIDEBAR ==================================================== */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.4);
+      z-index: 99;
+    }
+    .sidebar-overlay.open { display: block; }
+
+    /* === RESPONSIVE ======================================================== */
+    @media (max-width: 1024px) {
+      .main-grid { grid-template-columns: 1fr; }
+      .summary-card { position: static; }
+    }
+    @media (max-width: 768px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        position: fixed;
+        left: 0; top: 0;
+        transform: translateX(calc(-1 * var(--sidebar-w)));
+        z-index: 200;
+      }
+      .sidebar.open { transform: translateX(0); }
+      .hamburger { display: grid; }
+      .topbar-date { display: none; }
+      .main { padding: 16px; }
+    }
+    @media (max-width: 480px) {
+      .topbar { padding: 0 16px; }
+      .btn-new-order span { display: none; }
+      .btn-new-order { padding: 6px; }
+      .btn-secondary span { display: none; }
+      .btn-secondary { padding: 6px; }
+      .service-card { flex-wrap: wrap; }
+      .service-price { margin-left: auto; }
+      .form-row { grid-template-columns: 1fr; }
+      .modal-actions { flex-direction: column-reverse; }
+    }
+
+    /* === SKIP LINK ========================================================= */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 8px;
+      z-index: 9999;
+      padding: 8px 16px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 0 0 var(--radius) var(--radius);
+      text-decoration: none;
+      transition: top 0.12s;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* === FOCUS-VISIBLE RING ================================================ */
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .nav-item:focus-visible {
+      outline-offset: -2px;
+      border-radius: var(--radius);
+    }
+    .form-input:focus-visible, .form-textarea:focus-visible {
+      outline-offset: 0;
+      border-radius: 7px;
+    }
+    .icon-btn:focus-visible, .btn-new-order:focus-visible, .btn-secondary:focus-visible {
+      outline-offset: 2px;
+      border-radius: 7px;
+    }
+    .service-card:focus-visible {
+      outline-offset: -2px;
+      border-radius: 8px;
+    }
+    .service-tab:focus-visible {
+      outline-offset: -1px;
+      border-radius: 6px;
+    }
+    .accordion-header:focus-visible {
+      outline-offset: -2px;
+      border-radius: 8px;
+    }
+    .service-search:focus-visible {
+      outline-offset: 0;
+      border-radius: 7px;
+    }
+    .modal-close:focus-visible {
+      outline-offset: -2px;
+      border-radius: 6px;
+    }
+
+    /* === PRESS STATES ====================================================== */
+    .icon-btn:active, .btn-new-order:active, .btn-secondary:active, .hamburger:active, .modal-close:active, .service-tab:active, .accordion-header:active {
+      transform: translateY(1px);
+    }
+    .modal-close:active { transform: scale(.93); }
+
+    /* === SIDEBAR SCROLLBAR ================================================= */
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .sidebar::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+    /* === REDUCED MOTION ==================================================== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Ir al contenido principal</a>
+
+<!-- Sidebar overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- Success modal -->
+<div class="modal-overlay" id="successModal" onclick="closeModal(event)">
+  <div class="modal modal-success" onclick="event.stopPropagation()">
+    <div class="modal-body">
+      <div class="modal-icon">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8l3 3 7-7"/></svg>
+      </div>
+      <div class="modal-title">Pedido guardado</div>
+      <div class="modal-text">El pedido se registró correctamente.</div>
+      <div class="modal-order" id="modalOrderId">ORD-0000</div>
+      <button class="btn-new-order" onclick="goToDashboard()" style="width:100%;">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>
+        <span>Ir al dashboard</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- New client modal -->
+<div class="modal-overlay" id="clientModal" onclick="closeClientModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <span class="modal-title">Nuevo cliente</span>
+      <button class="modal-close" onclick="closeClientModalDirect()" aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-body">
+      <form class="modal-form" id="clientForm" onsubmit="event.preventDefault(); saveNewClient();">
+        <div class="form-group">
+          <label class="section-label" for="newClientName">Nombre <span style="color:var(--danger)">*</span></label>
+          <input type="text" id="newClientName" class="form-input" placeholder="Ej. Hotel Presidente" data-od-id="pos-new-client-name">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="section-label" for="newClientPhone">Teléfono</label>
+            <input type="tel" id="newClientPhone" class="form-input" placeholder="55 1234 5678" data-od-id="pos-new-client-phone">
+          </div>
+          <div class="form-group">
+            <label class="section-label" for="newClientEmail">Correo electrónico</label>
+            <input type="email" id="newClientEmail" class="form-input" placeholder="cliente@ejemplo.com" data-od-id="pos-new-client-email">
+          </div>
+        </div>
+        <p class="form-hint">Debes ingresar al menos teléfono o correo.</p>
+
+        <div class="form-group">
+          <label class="section-label" for="newClientAddress">Dirección</label>
+          <input type="text" id="newClientAddress" class="form-input" placeholder="Calle, número, colonia, ciudad…" data-od-id="pos-new-client-address">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="section-label" for="newClientRfc">RFC</label>
+            <input type="text" id="newClientRfc" class="form-input" placeholder="XAXX010101000" data-od-id="pos-new-client-rfc">
+          </div>
+          <div class="form-group">
+            <label class="section-label" for="newClientCompany">Razón social</label>
+            <input type="text" id="newClientCompany" class="form-input" placeholder="Ej. Presidente S.A. de C.V." data-od-id="pos-new-client-company">
+          </div>
+        </div>
+
+        <div class="form-error" id="clientFormError" role="alert">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v3.5M8 11v.5"/></svg>
+          <span id="clientFormErrorText"></span>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeClientModalDirect()" data-od-id="pos-new-client-cancel">
+            <span>Cancelar</span>
+          </button>
+          <button type="submit" class="btn-new-order" data-od-id="pos-new-client-save">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M8 3v10"/></svg>
+            <span>Guardar cliente</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+
+  <!-- ===== SIDEBAR ======================================================== -->
+  <aside class="sidebar" id="sidebar" data-od-id="pos-sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20">
+          <path d="M10 2C10 2 4 8.5 4 12.5a6 6 0 0012 0C16 8.5 10 2 10 2z"/>
+          <path d="M7.5 13a3 3 0 005 0" stroke-width="1.4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">LavanderPro</div>
+        <div class="brand-tag">Industrial</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-label">Principal</div>
+        <a href="index.html" class="nav-item" data-od-id="nav-dashboard">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>
+          Panel Principal
+        </a>
+        <a href="pos.html" class="nav-item active" aria-current="page" data-od-id="nav-pedidos">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 5h6M5 8h6M5 11h4"/></svg>
+          Pedidos
+          <span class="nav-badge">24</span>
+        </a>
+        <a href="#" class="nav-item" data-od-id="nav-clientes">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="5" r="3"/><path d="M1 14c0-2.76 2.24-5 5-5s5 2.24 5 5"/><circle cx="12.5" cy="5" r="2"/><path d="M15 13.5c0-1.93-1.57-3.5-3.5-3.5"/></svg>
+          Clientes
+        </a>
+        <a href="index.html#historial" class="nav-item" data-od-id="nav-historial">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="6"/><path d="M8 4v4l2.5 2.5"/></svg>
+          Historial
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-label">Sistema</div>
+        <a href="#" class="nav-item" data-od-id="nav-reportes">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="1" width="12" height="14" rx="1.5"/><path d="M5 5h6M5 8h6M5 11h3"/><path d="M10 10l1.5 1.5L14 9"/></svg>
+          Reportes
+        </a>
+        <a href="#" class="nav-item" data-od-id="nav-configuracion">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="2.5"/><path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M2.93 2.93l1.06 1.06M12.01 12.01l1.06 1.06M2.93 13.07l1.06-1.06M12.01 3.99l1.06-1.06"/></svg>
+          Configuración
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-row">
+        <div class="user-avatar">CR</div>
+        <div>
+          <div class="user-name">C. Rodríguez</div>
+          <div class="user-role">Administrador</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== TOPBAR ========================================================= -->
+  <header class="topbar" data-od-id="pos-topbar">
+    <div class="topbar-left">
+      <button class="icon-btn hamburger" onclick="toggleSidebar()" aria-label="Menú">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+      </button>
+      <span class="page-title" data-od-id="pos-page-title">Nuevo pedido</span>
+      <span class="breadcrumb">/ Registrar pedido</span>
+    </div>
+    <div class="topbar-right">
+      <button class="icon-btn" title="Cancelar" aria-label="Cancelar" onclick="cancelOrder()" data-od-id="pos-cancel">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3l10 10M13 3L3 13"/></svg>
+      </button>
+      <button class="btn-new-order" id="saveBtn" onclick="saveOrder()" data-od-id="pos-save">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M8 3v10"/></svg>
+        <span>Guardar pedido</span>
+      </button>
+      <span class="topbar-date" id="currentDate"></span>
+      <button class="icon-btn" title="Notificaciones" aria-label="Notificaciones">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 1a5 5 0 015 5v3l1.5 2.5H1.5L3 9V6a5 5 0 015-5z"/><path d="M6.5 13.5a1.5 1.5 0 003 0"/></svg>
+        <span class="notif-dot"></span>
+      </button>
+      <button class="icon-btn" title="Actualizar datos" aria-label="Actualizar">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13.5 2.5A7 7 0 112 9"/><path d="M2 4V9h5"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== MAIN =========================================================== -->
+  <main class="main" id="main" data-od-id="pos-main">
+
+    <div class="main-grid">
+
+      <!-- LEFT COLUMN -->
+      <div class="left-col" data-od-id="pos-form-column">
+
+        <!-- Alert -->
+        <div class="alert alert-error" id="formAlert" role="alert" aria-live="assertive" data-od-id="pos-alert">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v3.5M8 11v.5"/></svg>
+          <span id="formAlertText"></span>
+        </div>
+
+        <!-- Client -->
+        <div class="card" data-od-id="pos-client-card">
+          <div class="card-head">
+            <span class="card-title">Cliente</span>
+            <button type="button" class="btn-secondary" onclick="openClientModal()" data-od-id="pos-add-client-btn">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2v12M2 8h12"/></svg>
+              <span>Nuevo cliente</span>
+            </button>
+          </div>
+          <div class="card-body">
+            <label class="section-label" for="clientSearch">Buscar cliente</label>
+            <div class="client-search-wrap" data-od-id="pos-client-search-wrap">
+              <input
+                type="search"
+                id="clientSearch"
+                class="form-input"
+                placeholder="Escribe el nombre del cliente…"
+                autocomplete="off"
+                oninput="filterClients(this.value)"
+                onfocus="showClientDropdown()"
+                onkeydown="handleClientKey(event)"
+                data-od-id="pos-client-input"
+              >
+              <div class="client-dropdown" id="clientDropdown" data-od-id="pos-client-dropdown"></div>
+            </div>
+            <div id="selectedClient" data-od-id="pos-selected-client"></div>
+          </div>
+        </div>
+
+        <!-- Services -->
+        <div class="card" data-od-id="pos-services-card">
+          <div class="card-head">
+            <span class="card-title">Servicios</span>
+            <input
+              type="search"
+              id="serviceSearch"
+              class="service-search"
+              placeholder="Buscar servicio…"
+              autocomplete="off"
+              oninput="filterServices(this.value)"
+              aria-label="Buscar servicio"
+              data-od-id="pos-service-search"
+            >
+          </div>
+          <div class="card-body">
+            <div class="service-tabs" role="tablist" aria-label="Vista de servicios" data-od-id="pos-service-tabs">
+              <button type="button" class="service-tab active" role="tab" aria-selected="true" data-tab="popular" onclick="setServiceTab('popular', this)" data-od-id="pos-tab-popular">Populares</button>
+              <button type="button" class="service-tab" role="tab" aria-selected="false" data-tab="categories" onclick="setServiceTab('categories', this)" data-od-id="pos-tab-categories">Categorías</button>
+            </div>
+            <div class="service-list" id="serviceList" data-od-id="pos-service-list"></div>
+          </div>
+        </div>
+
+        <!-- Details -->
+        <div class="card" data-od-id="pos-details-card">
+          <div class="card-head">
+            <span class="card-title">Detalles del pedido</span>
+          </div>
+          <div class="card-body">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+              <div>
+                <label class="section-label" for="weightKg">Peso total (kg)</label>
+                <input
+                  type="number"
+                  id="weightKg"
+                  class="form-input"
+                  placeholder="0"
+                  min="0"
+                  step="0.1"
+                  oninput="updateWeight()"
+                  data-od-id="pos-weight"
+                >
+              </div>
+              <div>
+                <label class="section-label" for="deliveryDate">Entrega estimada</label>
+                <input
+                  type="datetime-local"
+                  id="deliveryDate"
+                  class="form-input"
+                  data-od-id="pos-delivery"
+                >
+              </div>
+            </div>
+            <div>
+              <label class="section-label" for="notes">Notas / instrucciones</label>
+              <textarea
+                id="notes"
+                class="form-textarea"
+                placeholder="Ej. Usar detergente hipoalergénico, entregar en recepción…"
+                data-od-id="pos-notes"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="right-col" data-od-id="pos-summary-column">
+        <div class="card summary-card" data-od-id="pos-summary-card">
+          <div class="card-head">
+            <span class="card-title">Resumen</span>
+          </div>
+          <div class="card-body">
+            <div id="summaryServices" data-od-id="pos-summary-services"></div>
+            <div class="summary-row">
+              <span class="summary-label">Peso</span>
+              <span class="summary-value" id="summaryWeight">—</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total estimado</span>
+              <span class="summary-value" id="summaryTotal">$0</span>
+            </div>
+            <button class="btn-new-order" id="summarySaveBtn" onclick="saveOrder()" style="width:100%; margin-top: 16px;" data-od-id="pos-summary-save">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M8 3v10"/></svg>
+              <span>Guardar pedido</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+  /* =========================================================
+     SIDEBAR
+     ========================================================= */
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('open');
+  }
+
+  /* =========================================================
+     DATA
+     ========================================================= */
+  var clients = [
+    { id: 'c1', name: 'Hotel Presidente', last: 'Hoy 09:10' },
+    { id: 'c2', name: 'Rest. La Hacienda', last: 'Ayer 18:30' },
+    { id: 'c3', name: 'Spa Relax Center', last: 'Hoy 09:00' },
+    { id: 'c4', name: 'Clínica San Marcos', last: 'Ayer 17:00' },
+    { id: 'c5', name: 'Gym FitZone', last: 'Ayer 17:00' },
+    { id: 'c6', name: 'Escuela Primaria 14', last: '03/07 14:30' },
+  ];
+
+  var services = [
+    { id: 's-basic', name: 'Básico', desc: 'Lavado estándar por kg', price: 12, category: 'general', popular: true },
+    { id: 's-bleach', name: 'Blanqueamiento', desc: 'Recupera el blanco de tus prendas', price: 18, category: 'general', popular: false },
+    { id: 's-spin', name: 'Centrifugado', desc: 'Extracción de agua intensiva', price: 8, category: 'general', popular: false },
+    { id: 's-industrial', name: 'Lavado Industrial', desc: 'Carga pesada, hoteles y restaurantes', price: 18, category: 'general', popular: true },
+    { id: 's-delicate', name: 'Lavado Delicado', desc: 'Prendas especiales y bajas temperaturas', price: 20, category: 'general', popular: false },
+    { id: 's-sterile', name: 'Esterilizado', desc: 'Clínicas y centros de salud', price: 22, category: 'general', popular: false },
+    { id: 's-pillow', name: 'Lavado de Almohada', desc: 'Limpieza profunda de almohadas', price: 35, category: 'pillows', popular: true },
+    { id: 's-pillow-delicate', name: 'Almohada Delicada', desc: 'Tratamiento suave para fibras sensibles', price: 42, category: 'pillows', popular: false },
+    { id: 's-sheet', name: 'Lavado de Sábanas', desc: 'Sábanas individuales y matrimoniales', price: 28, category: 'sheets', popular: true },
+    { id: 's-sheet-iron', name: 'Sábanas + Planchado', desc: 'Lavado y planchado de sábanas', price: 38, category: 'sheets', popular: false },
+    { id: 's-duvet', name: 'Lavado de Edredón', desc: 'Edredones y cobertores', price: 55, category: 'duvets', popular: true },
+    { id: 's-duvet-delicate', name: 'Edredón Delicado', desc: 'Edredones de plumas o materiales sensibles', price: 68, category: 'duvets', popular: false },
+  ];
+
+  var categories = [
+    { id: 'general', name: 'Servicios generales' },
+    { id: 'pillows', name: 'Almohadas' },
+    { id: 'sheets', name: 'Sábanas' },
+    { id: 'duvets', name: 'Edredones' }
+  ];
+
+  var currentServiceTab = 'popular';
+  var serviceSearchQuery = '';
+  var expandedCategories = { general: true };
+
+  var selectedClient = null;
+  var selectedServices = {};
+  var weightKg = '';
+
+  function fmtMoney(n) { return '$' + Math.round(n).toLocaleString('es-MX'); }
+  function fmtDateInput(d) {
+    var pad = function(v) { return (v < 10 ? '0' : '') + v; };
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+
+  function init() {
+    var d = new Date();
+    d.setHours(d.getHours() + 24);
+    document.getElementById('deliveryDate').value = fmtDateInput(d);
+    currentServiceTab = 'popular';
+    serviceSearchQuery = '';
+    expandedCategories = { general: true };
+    renderServices();
+    renderSummary();
+    document.addEventListener('click', function(e) {
+      var wrap = document.querySelector('.client-search-wrap');
+      if (!wrap.contains(e.target)) hideClientDropdown();
+    });
+
+    var dateEl = document.getElementById('currentDate');
+    if (dateEl) {
+      var today = new Date(2026, 6, 5, 10, 24);
+      dateEl.textContent = today.toLocaleDateString('es-MX', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+    }
+  }
+
+  function getFilteredServices() {
+    var q = serviceSearchQuery.toLowerCase().trim();
+    if (!q) return services;
+    return services.filter(function(s) {
+      return s.name.toLowerCase().indexOf(q) >= 0 || s.desc.toLowerCase().indexOf(q) >= 0;
+    });
+  }
+
+  function renderServiceCard(s) {
+    var qty = selectedServices[s.id] || 0;
+    var selected = qty > 0;
+    return '<div class="service-card' + (selected ? ' selected' : '') + '" tabindex="0" role="checkbox" aria-checked="' + selected + '" onclick="toggleService(\'' + s.id + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();toggleService(\'' + s.id + '\');}" data-od-id="pos-service-' + s.id + '">'
+      + '<div class="service-check"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 8l3 3 7-7"/></svg></div>'
+      + '<div class="service-info">'
+      + '<div class="service-name">' + s.name + '</div>'
+      + '<div class="service-desc">' + s.desc + '</div>'
+      + '</div>'
+      + '<div class="service-price">' + fmtMoney(s.price) + '</div>'
+      + '<div class="stepper" onclick="event.stopPropagation()">'
+      + '<button type="button" onclick="changeQty(event,\'' + s.id + '\',-1)" aria-label="Disminuir">−</button>'
+      + '<input type="number" min="0" max="99" value="' + qty + '" onchange="setQty(event,\'' + s.id + '\',this.value)" aria-label="Cantidad">'
+      + '<button type="button" onclick="changeQty(event,\'' + s.id + '\',1)" aria-label="Aumentar">+</button>'
+      + '</div>'
+      + '</div>';
+  }
+
+  function renderServices() {
+    var container = document.getElementById('serviceList');
+    var filtered = getFilteredServices();
+
+    if (serviceSearchQuery.trim()) {
+      if (!filtered.length) {
+        container.innerHTML = '<div class="service-empty">No se encontraron servicios para "' + escapeHtml(serviceSearchQuery) + '"</div>';
+        return;
+      }
+      container.innerHTML = filtered.map(renderServiceCard).join('');
+      return;
+    }
+
+    if (currentServiceTab === 'popular') {
+      var popular = filtered.filter(function(s) { return s.popular; });
+      if (!popular.length) {
+        container.innerHTML = '<div class="service-empty">No hay servicios populares por el momento.</div>';
+        return;
+      }
+      container.innerHTML = popular.map(renderServiceCard).join('');
+      return;
+    }
+
+    // categories tab
+    container.innerHTML = '<div class="service-accordion" role="presentation">' + categories.map(function(cat) {
+      var catServices = filtered.filter(function(s) { return s.category === cat.id; });
+      var isOpen = !!expandedCategories[cat.id];
+      return '<div class="accordion-item" data-od-id="pos-category-' + cat.id + '">'
+        + '<button type="button" class="accordion-header" aria-expanded="' + isOpen + '" onclick="toggleCategory(\'' + cat.id + '\')" data-od-id="pos-category-header-' + cat.id + '">'
+        + '<span>' + cat.name + '</span>'
+        + '<span class="accordion-count">' + catServices.length + ' servicio' + (catServices.length === 1 ? '' : 's') + '</span>'
+        + '<svg class="accordion-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6l5 5 5-5"/></svg>'
+        + '</button>'
+        + '<div class="accordion-body' + (isOpen ? ' open' : '') + '" data-od-id="pos-category-body-' + cat.id + '">'
+        + (catServices.length ? catServices.map(renderServiceCard).join('') : '<div class="service-empty">Sin servicios en esta categoría.</div>')
+        + '</div>'
+        + '</div>';
+    }).join('') + '</div>';
+  }
+
+  function escapeHtml(text) {
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function setServiceTab(tab, btn) {
+    currentServiceTab = tab;
+    var tabs = document.querySelectorAll('.service-tab');
+    for (var i = 0; i < tabs.length; i++) {
+      tabs[i].classList.remove('active');
+      tabs[i].setAttribute('aria-selected', 'false');
+    }
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    renderServices();
+  }
+
+  function toggleCategory(id) {
+    expandedCategories[id] = !expandedCategories[id];
+    renderServices();
+  }
+
+  function filterServices(q) {
+    serviceSearchQuery = q || '';
+    renderServices();
+  }
+
+  function toggleService(id) {
+    if (selectedServices[id]) delete selectedServices[id];
+    else selectedServices[id] = 1;
+    renderServices();
+    renderSummary();
+  }
+
+  function changeQty(event, id, delta) {
+    event.stopPropagation();
+    var current = selectedServices[id] || 0;
+    var next = current + delta;
+    if (next < 0) next = 0;
+    if (next > 99) next = 99;
+    if (next === 0) delete selectedServices[id];
+    else selectedServices[id] = next;
+    renderServices();
+    renderSummary();
+  }
+
+  function setQty(event, id, value) {
+    event.stopPropagation();
+    var n = parseInt(value, 10) || 0;
+    if (n <= 0) delete selectedServices[id];
+    else selectedServices[id] = Math.min(n, 99);
+    renderServices();
+    renderSummary();
+  }
+
+  function updateWeight() {
+    weightKg = document.getElementById('weightKg').value;
+    renderSummary();
+  }
+
+  function renderSummary() {
+    var total = 0;
+    var servicesHtml = '';
+    services.forEach(function(s) {
+      var qty = selectedServices[s.id];
+      if (qty) {
+        var sub = qty * s.price;
+        total += sub;
+        servicesHtml += '<div class="summary-service"><span>' + s.name + ' <small>x' + qty + '</small></span><span>' + fmtMoney(sub) + '</span></div>';
+      }
+    });
+    document.getElementById('summaryServices').innerHTML = servicesHtml
+      ? '<div class="summary-row" style="border-bottom:none;padding-bottom:4px;"><span class="summary-label">Servicios</span></div>' + servicesHtml
+      : '<div class="summary-empty">Selecciona al menos un servicio</div>';
+    document.getElementById('summaryWeight').textContent = weightKg ? weightKg + ' kg' : '—';
+    document.getElementById('summaryTotal').textContent = fmtMoney(total);
+  }
+
+  // Client dropdown
+  function filterClients(q) {
+    q = (q || '').toLowerCase().trim();
+    var list = q ? clients.filter(function(c) { return c.name.toLowerCase().indexOf(q) >= 0; }) : clients;
+    renderClientDropdown(list);
+    showClientDropdown();
+  }
+
+  function renderClientDropdown(list) {
+    var dd = document.getElementById('clientDropdown');
+    if (!list.length) {
+      dd.innerHTML = '<div class="client-option"><span class="client-option-name">Sin coincidencias</span></div>';
+      return;
+    }
+    dd.innerHTML = list.map(function(c) {
+      return '<div class="client-option" onclick="selectClient(\'' + c.id + '\')" data-od-id="pos-client-option-' + c.id + '">'
+        + '<div class="client-option-name">' + c.name + '</div>'
+        + '<div class="client-option-meta">Último pedido: ' + c.last + '</div>'
+        + '</div>';
+    }).join('');
+  }
+
+  function showClientDropdown() {
+    var input = document.getElementById('clientSearch');
+    filterClients(input.value);
+    document.getElementById('clientDropdown').classList.add('open');
+  }
+
+  function hideClientDropdown() {
+    document.getElementById('clientDropdown').classList.remove('open');
+  }
+
+  function selectClient(id) {
+    selectedClient = clients.find(function(c) { return c.id === id; });
+    document.getElementById('clientSearch').value = selectedClient.name;
+    renderSelectedClient();
+    hideClientDropdown();
+  }
+
+  function renderSelectedClient() {
+    var el = document.getElementById('selectedClient');
+    if (!selectedClient) { el.innerHTML = ''; return; }
+    el.innerHTML = '<div class="client-tag">'
+      + '<span>' + selectedClient.name + '</span>'
+      + '<button type="button" onclick="clearClient()" aria-label="Quitar cliente">×</button>'
+      + '</div>';
+  }
+
+  function clearClient() {
+    selectedClient = null;
+    document.getElementById('clientSearch').value = '';
+    renderSelectedClient();
+  }
+
+  function handleClientKey(e) {
+    if (e.key === 'Escape') hideClientDropdown();
+  }
+
+  function showAlert(msg) {
+    var el = document.getElementById('formAlert');
+    document.getElementById('formAlertText').textContent = msg;
+    el.classList.add('show');
+  }
+  function hideAlert() {
+    document.getElementById('formAlert').classList.remove('show');
+  }
+
+  function saveOrder() {
+    hideAlert();
+    var weight = parseFloat(document.getElementById('weightKg').value);
+
+    if (!selectedClient) {
+      showAlert('Selecciona un cliente.');
+      document.getElementById('clientSearch').focus();
+      return;
+    }
+    if (!Object.keys(selectedServices).length) {
+      showAlert('Selecciona al menos un servicio.');
+      return;
+    }
+    if (!weight || weight <= 0) {
+      showAlert('Ingresa un peso válido mayor a 0.');
+      document.getElementById('weightKg').focus();
+      return;
+    }
+
+    var saveBtn = document.getElementById('saveBtn');
+    var summarySaveBtn = document.getElementById('summarySaveBtn');
+    saveBtn.disabled = true;
+    summarySaveBtn.disabled = true;
+    var originalText = saveBtn.innerHTML;
+    saveBtn.innerHTML = '<span class="spinner"></span><span>Guardando…</span>';
+    summarySaveBtn.innerHTML = '<span class="spinner"></span><span>Guardando…</span>';
+
+    setTimeout(function() {
+      var nextId = 'ORD-' + (2855 + Math.floor(Math.random() * 100));
+      document.getElementById('modalOrderId').textContent = nextId;
+      document.getElementById('successModal').classList.add('open');
+      saveBtn.disabled = false;
+      summarySaveBtn.disabled = false;
+      saveBtn.innerHTML = originalText;
+      summarySaveBtn.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M8 3v10"/></svg><span>Guardar pedido</span>';
+    }, 1200);
+  }
+
+  function cancelOrder() {
+    if (confirm('¿Cancelar el pedido? Los cambios no guardados se perderán.')) {
+      window.location.href = 'index.html';
+    }
+  }
+
+  function closeModal(e) {
+    if (e.target === document.getElementById('successModal')) {
+      document.getElementById('successModal').classList.remove('open');
+    }
+  }
+
+  function goToDashboard() {
+    window.location.href = 'index.html';
+  }
+
+  /* =========================================================
+     NEW CLIENT MODAL
+     ========================================================= */
+  function openClientModal() {
+    document.getElementById('clientModal').classList.add('open');
+    document.getElementById('newClientName').focus();
+  }
+
+  function closeClientModalDirect() {
+    document.getElementById('clientModal').classList.remove('open');
+    resetClientForm();
+  }
+
+  function closeClientModal(e) {
+    if (e.target === document.getElementById('clientModal')) {
+      closeClientModalDirect();
+    }
+  }
+
+  function resetClientForm() {
+    document.getElementById('clientForm').reset();
+    hideClientFormError();
+  }
+
+  function showClientFormError(msg) {
+    var el = document.getElementById('clientFormError');
+    document.getElementById('clientFormErrorText').textContent = msg;
+    el.classList.add('show');
+  }
+
+  function hideClientFormError() {
+    document.getElementById('clientFormError').classList.remove('show');
+  }
+
+  function isValidEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  }
+
+  function saveNewClient() {
+    hideClientFormError();
+
+    var name = document.getElementById('newClientName').value.trim();
+    var email = document.getElementById('newClientEmail').value.trim();
+    var phone = document.getElementById('newClientPhone').value.trim();
+    var address = document.getElementById('newClientAddress').value.trim();
+    var rfc = document.getElementById('newClientRfc').value.trim();
+    var company = document.getElementById('newClientCompany').value.trim();
+
+    if (!name) {
+      showClientFormError('El nombre del cliente es obligatorio.');
+      document.getElementById('newClientName').focus();
+      return;
+    }
+    if (!phone && !email) {
+      showClientFormError('Ingresa al menos un teléfono o un correo electrónico.');
+      document.getElementById('newClientPhone').focus();
+      return;
+    }
+    if (email && !isValidEmail(email)) {
+      showClientFormError('Ingresa un correo electrónico válido.');
+      document.getElementById('newClientEmail').focus();
+      return;
+    }
+
+    var newId = 'c' + (clients.length + 1 + Date.now() % 1000);
+    var client = {
+      id: newId,
+      name: name,
+      email: email || null,
+      phone: phone || null,
+      address: address || null,
+      rfc: rfc || null,
+      company: company || null,
+      last: 'Nuevo'
+    };
+    clients.unshift(client);
+
+    selectClient(newId);
+    closeClientModalDirect();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.getElementById('successModal').classList.remove('open');
+      closeClientModalDirect();
+    }
+  });
+
+  init();
+</script>
+
+</body>
+</html>

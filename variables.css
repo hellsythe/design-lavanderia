@@ -1,0 +1,87 @@
+/*
+ * Github Dashboard Design System — Variables
+ * Product: LavanderPro (Industrial Laundry Management)
+ * Design system id: user:github-dashboard-design-system
+ *
+ * Standalone `:root` token file. Import after loading Public Sans:
+ *   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+ *   <link rel="stylesheet" href="variables.css">
+ *
+ * For the full token file plus typography utilities, use colors_and_type.css.
+ */
+
+:root {
+  /* Surfaces */
+  --bg:           #F0F4F8;
+  --surface:      #FFFFFF;
+  --surface-2:    #F8FAFC;
+
+  /* Foreground */
+  --fg:           #1A2332;
+  --muted:        #64748B;
+
+  /* Structure */
+  --border:       #E1E8F0;
+
+  /* Brand accent */
+  --accent:       #0F766E;
+  --accent-soft:  #CCFBF1;
+
+  /* Status */
+  --success:      #059669;
+  --success-soft: #D1FAE5;
+  --warning:      #B45309;
+  --warning-soft: #FEF3C7;
+  --danger:       #DC2626;
+  --danger-soft:  #FEE2E2;
+  --info:         #2563EB;
+  --info-soft:    #DBEAFE;
+  --purple:       #7C3AED;
+  --purple-soft:  #EDE9FE;
+
+  /* Layout */
+  --sidebar-w:    256px;
+  --topbar-h:     56px;
+
+  /* Radius */
+  --radius:       10px;
+  --radius-sm:    7px;
+  --radius-icon:  8px;
+  --radius-pill:  999px;
+  --radius-modal: 14px;
+
+  /* Shadows */
+  --shadow:       0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,.10), 0 1px 3px rgba(0,0,0,.06);
+  --shadow-modal: 0 24px 64px rgba(0,0,0,.20);
+
+  /* Typography */
+  --font-sans:  'Public Sans', system-ui, -apple-system, 'Segoe UI',
+                'Helvetica Neue', Arial, sans-serif;
+  --font-mono:  ui-monospace, 'Cascadia Code', Menlo, monospace;
+
+  --text-base:          14px;
+  --lh-base:            1.5;
+  --text-display-kpi:   28px;
+  --text-display-revenue: 30px;
+  --text-display-cycle: 44px;
+  --text-brand:         15px;
+  --text-title:         15px;
+  --text-card:          13px;
+  --text-nav:           13.5px;
+  --text-body:          13px;
+  --text-label:         10px;
+  --text-kpi-lbl:       10.5px;
+  --text-meta:          11.5px;
+  --text-caption:       12px;
+  --text-badge:         11px;
+  --text-mono:          12px;
+  --text-bar-day:       9.5px;
+
+  /* Transitions */
+  --t-fast: 0.10s;
+  --t-ui:   0.12s;
+  --t-lift: 0.15s;
+  --t-slide: 0.22s;
+  --t-chart: 0.30s;
+}
