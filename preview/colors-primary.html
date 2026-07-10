@@ -3,267 +3,376 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Colors — Github Dashboard Design System</title>
+  <title>Colors — LavanderPro Design System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../variables.css">
   <style>
-    :root {
-      --bg: #F0F4F8; --surface: #FFFFFF; --surface-2: #F8FAFC;
-      --fg: #1A2332; --muted: #64748B; --border: #E1E8F0;
-      --accent: #0F766E; --accent-soft: #CCFBF1;
-      --success: #059669; --success-soft: #D1FAE5;
-      --warning: #B45309; --warning-soft: #FEF3C7;
-      --danger: #DC2626; --danger-soft: #FEE2E2;
-      --info: #2563EB; --info-soft: #DBEAFE;
-      --purple: #7C3AED; --purple-soft: #EDE9FE;
-      --radius: 10px;
-      --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 14px; }
     body {
-      font-family: 'Public Sans', system-ui, sans-serif;
+      font-family: var(--font-sans);
       background: var(--bg);
       color: var(--fg);
+      min-height: 100vh;
       -webkit-font-smoothing: antialiased;
-      padding: 40px 32px;
     }
-    nav { margin-bottom: 32px; }
-    nav a { font-size: 12px; color: var(--accent); text-decoration: none; }
-    nav a:hover { text-decoration: underline; }
-    h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
-    .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 36px; }
-    .section-label {
-      font-size: 10px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.09em; color: var(--muted);
-      margin-bottom: 12px; margin-top: 32px;
+    .container { max-width: 1080px; margin: 0 auto; padding: 56px 24px 96px; }
+    .breadcrumb {
+      font-size: 11px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
     }
-    .section-label:first-of-type { margin-top: 0; }
+    h1 {
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+    .lead { color: var(--muted); max-width: 640px; line-height: 1.5; margin-bottom: 48px; }
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    section { margin-bottom: 56px; }
     .swatch-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 10px;
-      margin-bottom: 8px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
     }
     .swatch {
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid rgba(0,0,0,.06);
       background: var(--surface);
-      box-shadow: var(--shadow);
-    }
-    .swatch-color { height: 72px; }
-    .swatch-info { padding: 10px 12px; }
-    .swatch-name { font-size: 11.5px; font-weight: 700; color: var(--fg); }
-    .swatch-hex { font-size: 10.5px; color: var(--muted); font-family: ui-monospace, Menlo, monospace; margin-top: 2px; }
-    .swatch-token { font-size: 10px; color: var(--muted); font-family: ui-monospace, Menlo, monospace; margin-top: 2px; opacity: .7; }
-    .pair-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-    .pair {
-      border-radius: 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
       overflow: hidden;
-      border: 1px solid rgba(0,0,0,.06);
       box-shadow: var(--shadow);
+    }
+    .swatch-color {
+      height: 96px;
       display: flex;
+      align-items: flex-end;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
     }
-    .pair-solid { flex: 1; height: 56px; }
-    .pair-soft  { flex: 1; height: 56px; }
-    .pair-label {
-      padding: 8px 12px;
-      background: var(--surface);
-      display: flex; justify-content: space-between; align-items: center;
-      border-top: 1px solid var(--border);
+    .swatch-body { padding: 14px 16px; }
+    .swatch-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--fg);
+      margin-bottom: 4px;
     }
-    .pair-label span { font-size: 11px; font-weight: 700; }
-    .pair-label code { font-size: 10px; font-family: ui-monospace, Menlo, monospace; color: var(--muted); }
-
+    .swatch-role {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .swatch-token {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+      margin-top: 6px;
+    }
+    /* Specific colors */
+    .bg-bg { background: var(--bg); }
+    .bg-surface { background: var(--surface); }
+    .bg-surface-2 { background: var(--surface-2); }
+    .bg-fg { background: var(--fg); }
+    .bg-muted { background: var(--muted); }
+    .bg-border { background: var(--border); }
+    .bg-accent { background: var(--accent); color: #fff; }
+    .bg-accent-soft { background: var(--accent-soft); }
+    .bg-success { background: var(--success); color: #fff; }
+    .bg-success-soft { background: var(--success-soft); }
+    .bg-warning { background: var(--warning); color: #fff; }
+    .bg-warning-soft { background: var(--warning-soft); }
+    .bg-danger { background: var(--danger); color: #fff; }
+    .bg-danger-soft { background: var(--danger-soft); }
+    .bg-info { background: var(--info); color: #fff; }
+    .bg-info-soft { background: var(--info-soft); }
+    .bg-purple { background: var(--purple); color: #fff; }
+    .bg-purple-soft { background: var(--purple-soft); }
+    .color-fg-on-light { color: var(--fg); }
+    .color-muted-on-light { color: var(--muted); }
+    .back-link {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      margin-bottom: 24px;
+    }
+    .back-link:hover { color: var(--accent); }
     /* Accent economy demo */
     .accent-demo {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
+      padding: 20px;
       box-shadow: var(--shadow);
-      padding: 20px 24px;
-      margin-bottom: 8px;
     }
-    .accent-demo h3 { font-size: 13px; font-weight: 700; margin-bottom: 14px; }
-    .accent-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-    .accent-chip {
-      display: flex; align-items: center; gap: 8px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      font-size: 11.5px;
+    .accent-demo-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .accent-demo-row:last-child { border-bottom: none; }
+    .accent-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .accent-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--fg);
+      flex: 1;
+    }
+    .accent-token {
+      font-family: var(--font-mono);
+      font-size: 11px;
       color: var(--muted);
-      background: var(--surface-2);
     }
-    .accent-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
-    .accent-chip.active { background: var(--accent-soft); color: var(--accent); border-color: transparent; font-weight: 700; }
+    /* Status pairs */
+    .status-pair {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+    }
+    .status-row + .status-row { border-top: 1px solid var(--border); }
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .status-chip .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+    .chip-success { background: var(--success-soft); color: var(--success); }
+    .chip-success .dot { background: var(--success); }
+    .chip-warning { background: var(--warning-soft); color: var(--warning); }
+    .chip-warning .dot { background: var(--warning); }
+    .chip-danger { background: var(--danger-soft); color: var(--danger); }
+    .chip-danger .dot { background: var(--danger); }
+    .chip-info { background: var(--info-soft); color: var(--info); }
+    .chip-info .dot { background: var(--info); }
+    .chip-purple { background: var(--purple-soft); color: var(--purple); }
+    .chip-purple .dot { background: var(--purple); }
+    .status-hex {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
   </style>
 </head>
 <body>
+  <main class="container">
+    <a class="back-link" href="index.html">← Volver</a>
+    <div class="breadcrumb">01 · Tokens</div>
+    <h1>Colors</h1>
+    <p class="lead">
+      Tokens cromáticos del design system. Todos se exponen como CSS custom properties
+      y se referencian desde Tailwind via <code>@lavanderpro/ui/tailwind-preset</code>.
+    </p>
 
-<nav><a href="index.html">← Volver al índice</a></nav>
+    <section>
+      <h2>Brand palette · neutros + accent</h2>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color bg-bg"><span class="color-fg-on-light">#F0F4F8</span></div>
+          <div class="swatch-body">
+            <div class="swatch-name">Canvas (bg)</div>
+            <div class="swatch-role">Fondo de página — cool blue-gray</div>
+            <div class="swatch-token">--bg</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color bg-surface"><span class="color-fg-on-light">#FFFFFF</span></div>
+          <div class="swatch-body">
+            <div class="swatch-name">Surface</div>
+            <div class="swatch-role">Cards y paneles</div>
+            <div class="swatch-token">--surface</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color bg-surface-2"><span class="color-fg-on-light">#F8FAFC</span></div>
+          <div class="swatch-body">
+            <div class="swatch-name">Surface 2</div>
+            <div class="swatch-role">Hover fill, inputs, alt rows</div>
+            <div class="swatch-token">--surface-2</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color bg-fg"><span style="color:#fff">#1A2332</span></div>
+          <div class="swatch-body">
+            <div class="swatch-name">Foreground</div>
+            <div class="swatch-role">Texto principal — deep navy</div>
+            <div class="swatch-token">--fg</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color bg-muted"><span style="color:#fff">#64748B</span></div>
+          <div class="swatch-body">
+            <div class="swatch-name">Muted</div>
+            <div class="swatch-role">Texto secundario, iconos, meta</div>
+            <div class="swatch-token">--muted</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color bg-border"><span class="color-fg-on-light">#E1E8F0</span></div>
+          <div class="swatch-body">
+            <div class="swatch-name">Border</div>
+            <div class="swatch-role">Hairlines y dividers</div>
+            <div class="swatch-token">--border</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color bg-accent">#0F766E</div>
+          <div class="swatch-body">
+            <div class="swatch-name">Accent</div>
+            <div class="swatch-role">Acción primaria · brand · máx 6 anchors/pantalla</div>
+            <div class="swatch-token">--accent</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color bg-accent-soft"><span class="color-fg-on-light">#CCFBF1</span></div>
+          <div class="swatch-body">
+            <div class="swatch-name">Accent Soft</div>
+            <div class="swatch-role">Active nav bg, hover fills</div>
+            <div class="swatch-token">--accent-soft</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<h1>Colors</h1>
-<p class="subtitle">Paleta completa del sistema de diseño Github Dashboard — LavanderPro</p>
+    <section>
+      <h2>Status palette · 5 pares (color + soft)</h2>
+      <div class="swatch-grid">
+        <div class="status-pair">
+          <div class="status-row">
+            <span class="status-chip chip-success"><span class="dot"></span>Completado</span>
+            <span class="status-hex">--success / --success-soft</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+            <div class="swatch-color bg-success" style="height:48px;border-radius:6px"><span style="color:#fff;font-size:11px">#059669</span></div>
+            <div class="swatch-color bg-success-soft" style="height:48px;border-radius:6px"><span style="color:var(--fg);font-size:11px">#D1FAE5</span></div>
+          </div>
+        </div>
+        <div class="status-pair">
+          <div class="status-row">
+            <span class="status-chip chip-warning"><span class="dot"></span>En proceso</span>
+            <span class="status-hex">--warning / --warning-soft</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+            <div class="swatch-color bg-warning" style="height:48px;border-radius:6px"><span style="color:#fff;font-size:11px">#B45309</span></div>
+            <div class="swatch-color bg-warning-soft" style="height:48px;border-radius:6px"><span style="color:var(--fg);font-size:11px">#FEF3C7</span></div>
+          </div>
+        </div>
+        <div class="status-pair">
+          <div class="status-row">
+            <span class="status-chip chip-danger"><span class="dot"></span>Cancelado</span>
+            <span class="status-hex">--danger / --danger-soft</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+            <div class="swatch-color bg-danger" style="height:48px;border-radius:6px"><span style="color:#fff;font-size:11px">#DC2626</span></div>
+            <div class="swatch-color bg-danger-soft" style="height:48px;border-radius:6px"><span style="color:var(--fg);font-size:11px">#FEE2E2</span></div>
+          </div>
+        </div>
+        <div class="status-pair">
+          <div class="status-row">
+            <span class="status-chip chip-info"><span class="dot"></span>Pendiente</span>
+            <span class="status-hex">--info / --info-soft</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+            <div class="swatch-color bg-info" style="height:48px;border-radius:6px"><span style="color:#fff;font-size:11px">#2563EB</span></div>
+            <div class="swatch-color bg-info-soft" style="height:48px;border-radius:6px"><span style="color:var(--fg);font-size:11px">#DBEAFE</span></div>
+          </div>
+        </div>
+        <div class="status-pair">
+          <div class="status-row">
+            <span class="status-chip chip-purple"><span class="dot"></span>Ciclo</span>
+            <span class="status-hex">--purple / --purple-soft</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+            <div class="swatch-color bg-purple" style="height:48px;border-radius:6px"><span style="color:#fff;font-size:11px">#7C3AED</span></div>
+            <div class="swatch-color bg-purple-soft" style="height:48px;border-radius:6px"><span style="color:var(--fg);font-size:11px">#EDE9FE</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div class="section-label">Canvas & Surfaces</div>
-<div class="swatch-grid">
-  <div class="swatch">
-    <div class="swatch-color" style="background:#F0F4F8"></div>
-    <div class="swatch-info">
-      <div class="swatch-name">Background</div>
-      <div class="swatch-hex">#F0F4F8</div>
-      <div class="swatch-token">--bg</div>
-    </div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background:#FFFFFF;border-bottom:1px solid #E1E8F0"></div>
-    <div class="swatch-info">
-      <div class="swatch-name">Surface</div>
-      <div class="swatch-hex">#FFFFFF</div>
-      <div class="swatch-token">--surface</div>
-    </div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background:#F8FAFC;border-bottom:1px solid #E1E8F0"></div>
-    <div class="swatch-info">
-      <div class="swatch-name">Surface 2</div>
-      <div class="swatch-hex">#F8FAFC</div>
-      <div class="swatch-token">--surface-2</div>
-    </div>
-  </div>
-</div>
-
-<div class="section-label">Foreground & Structure</div>
-<div class="swatch-grid">
-  <div class="swatch">
-    <div class="swatch-color" style="background:#1A2332"></div>
-    <div class="swatch-info">
-      <div class="swatch-name">Foreground</div>
-      <div class="swatch-hex">#1A2332</div>
-      <div class="swatch-token">--fg</div>
-    </div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background:#64748B"></div>
-    <div class="swatch-info">
-      <div class="swatch-name">Muted</div>
-      <div class="swatch-hex">#64748B</div>
-      <div class="swatch-token">--muted</div>
-    </div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background:#E1E8F0"></div>
-    <div class="swatch-info">
-      <div class="swatch-name">Border</div>
-      <div class="swatch-hex">#E1E8F0</div>
-      <div class="swatch-token">--border</div>
-    </div>
-  </div>
-</div>
-
-<div class="section-label">Brand Accent — Teal (use sparingly)</div>
-<div class="swatch-grid">
-  <div class="swatch">
-    <div class="swatch-color" style="background:#0F766E"></div>
-    <div class="swatch-info">
-      <div class="swatch-name">Accent</div>
-      <div class="swatch-hex">#0F766E</div>
-      <div class="swatch-token">--accent</div>
-    </div>
-  </div>
-  <div class="swatch">
-    <div class="swatch-color" style="background:#CCFBF1"></div>
-    <div class="swatch-info">
-      <div class="swatch-name">Accent Soft</div>
-      <div class="swatch-hex">#CCFBF1</div>
-      <div class="swatch-token">--accent-soft</div>
-    </div>
-  </div>
-</div>
-
-<div class="accent-demo">
-  <h3>Acento en contexto — puntos de aplicación permitidos</h3>
-  <div class="accent-row">
-    <div class="accent-chip active">
-      <div class="accent-dot"></div>Nav activo
-    </div>
-    <div class="accent-chip">
-      <div class="accent-dot"></div>Focus ring
-    </div>
-    <div class="accent-chip">
-      <div class="accent-dot"></div>Barra progreso
-    </div>
-    <div class="accent-chip">
-      <div class="accent-dot"></div>Contador clientes
-    </div>
-    <div class="accent-chip">
-      <div class="accent-dot"></div>Barra "hoy"
-    </div>
-    <div class="accent-chip">
-      <div class="accent-dot"></div>Icono brand
-    </div>
-  </div>
-</div>
-
-<div class="section-label">Semantic Status Colors (solid + soft pairs)</div>
-<div class="pair-grid">
-  <div>
-    <div class="pair">
-      <div class="pair-solid" style="background:#059669"></div>
-      <div class="pair-soft"  style="background:#D1FAE5"></div>
-    </div>
-    <div class="pair-label" style="background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px">
-      <span>Success</span>
-      <code>#059669 / #D1FAE5</code>
-    </div>
-  </div>
-  <div>
-    <div class="pair">
-      <div class="pair-solid" style="background:#B45309"></div>
-      <div class="pair-soft"  style="background:#FEF3C7"></div>
-    </div>
-    <div class="pair-label" style="background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px">
-      <span>Warning</span>
-      <code>#B45309 / #FEF3C7</code>
-    </div>
-  </div>
-  <div>
-    <div class="pair">
-      <div class="pair-solid" style="background:#DC2626"></div>
-      <div class="pair-soft"  style="background:#FEE2E2"></div>
-    </div>
-    <div class="pair-label" style="background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px">
-      <span>Danger</span>
-      <code>#DC2626 / #FEE2E2</code>
-    </div>
-  </div>
-  <div>
-    <div class="pair">
-      <div class="pair-solid" style="background:#2563EB"></div>
-      <div class="pair-soft"  style="background:#DBEAFE"></div>
-    </div>
-    <div class="pair-label" style="background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px">
-      <span>Info</span>
-      <code>#2563EB / #DBEAFE</code>
-    </div>
-  </div>
-  <div>
-    <div class="pair">
-      <div class="pair-solid" style="background:#7C3AED"></div>
-      <div class="pair-soft"  style="background:#EDE9FE"></div>
-    </div>
-    <div class="pair-label" style="background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px">
-      <span>Purple (KPI ciclo únicamente)</span>
-      <code>#7C3AED / #EDE9FE</code>
-    </div>
-  </div>
-</div>
-
+    <section>
+      <h2>Accent economy · ≤6 anchors por pantalla</h2>
+      <p class="lead" style="margin-bottom:16px">
+        <code>--accent</code> aparece solo en puntos específicos. Nunca como fondo de página,
+        hero o panel grande. Esta es la regla dura del design system.
+      </p>
+      <div class="accent-demo">
+        <div class="accent-demo-row">
+          <div class="accent-dot bg-accent"></div>
+          <div class="accent-label">Brand icon (sidebar header)</div>
+          <div class="accent-token">bg-accent</div>
+        </div>
+        <div class="accent-demo-row">
+          <div class="accent-dot bg-accent"></div>
+          <div class="accent-label">Active nav item text</div>
+          <div class="accent-token">text-accent</div>
+        </div>
+        <div class="accent-demo-row">
+          <div class="accent-dot bg-accent"></div>
+          <div class="accent-label">Focus-visible ring</div>
+          <div class="accent-token">*:focus-visible { outline: 2px solid var(--accent) }</div>
+        </div>
+        <div class="accent-demo-row">
+          <div class="accent-dot bg-accent"></div>
+          <div class="accent-label">Progress bar fill (cycle time)</div>
+          <div class="accent-token">bg-accent</div>
+        </div>
+        <div class="accent-demo-row">
+          <div class="accent-dot bg-accent"></div>
+          <div class="accent-label">Client order count numerals</div>
+          <div class="accent-token">text-accent</div>
+        </div>
+        <div class="accent-demo-row">
+          <div class="accent-dot bg-accent"></div>
+          <div class="accent-label">Bar chart "today" highlight</div>
+          <div class="accent-token">bg-accent</div>
+        </div>
+        <div class="accent-demo-row">
+          <div class="accent-dot bg-accent-soft"></div>
+          <div class="accent-label">Active filter/period button bg</div>
+          <div class="accent-token">bg-accent-soft + text-accent</div>
+        </div>
+      </div>
+    </section>
+  </main>
 </body>
 </html>

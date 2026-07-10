@@ -3,685 +3,866 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Components — Github Dashboard Design System</title>
+  <title>Components — LavanderPro Design System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../variables.css">
   <style>
-    :root {
-      --bg: #F0F4F8; --surface: #FFFFFF; --surface-2: #F8FAFC;
-      --fg: #1A2332; --muted: #64748B; --border: #E1E8F0;
-      --accent: #0F766E; --accent-soft: #CCFBF1;
-      --success: #059669; --success-soft: #D1FAE5;
-      --warning: #B45309; --warning-soft: #FEF3C7;
-      --danger: #DC2626; --danger-soft: #FEE2E2;
-      --info: #2563EB; --info-soft: #DBEAFE;
-      --purple: #7C3AED; --purple-soft: #EDE9FE;
-      --radius: 10px;
-      --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 14px; }
     body {
-      font-family: 'Public Sans', system-ui, sans-serif;
-      background: var(--bg); color: var(--fg);
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
       -webkit-font-smoothing: antialiased;
-      padding: 40px 32px;
     }
-    nav { margin-bottom: 32px; }
-    nav a { font-size: 12px; color: var(--accent); text-decoration: none; }
-    h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
-    .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 36px; }
-    .section-label {
-      font-size: 10px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.09em; color: var(--muted);
-      margin-bottom: 14px; margin-top: 32px;
+    .container { max-width: 1080px; margin: 0 auto; padding: 56px 24px 96px; }
+    .breadcrumb {
+      font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px;
     }
-    .comp-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); box-shadow: var(--shadow);
-      padding: 20px 24px; margin-bottom: 12px;
+    h1 { font-size: 30px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 8px; }
+    .lead { color: var(--muted); max-width: 640px; line-height: 1.5; margin-bottom: 48px; }
+    h2 {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.09em;
+      text-transform: uppercase; color: var(--muted);
+      margin: 48px 0 16px; padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
     }
-    .comp-card h3 { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 16px; }
-    .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-    .col { display: flex; flex-direction: column; gap: 10px; }
-
-    /* === KPI Cards === */
-    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px,1fr)); gap: 12px; }
-    .kpi-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow);
-      position: relative; overflow: hidden;
-      transition: box-shadow 0.15s, transform 0.15s;
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .spec {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
     }
-    .kpi-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.10),0 1px 3px rgba(0,0,0,.06); transform: translateY(-2px); }
-    .kpi-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-bottom: 10px; text-wrap: pretty; }
-    .kpi-icon { position: absolute; top: 14px; right: 14px; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; }
-    .kpi-value { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--fg); letter-spacing: -0.02em; line-height: 1; margin-bottom: 8px; }
-    .kpi-delta { display: flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 600; }
-    .kpi-delta.up { color: var(--success); }
-    .kpi-delta.down { color: var(--danger); }
-    .kpi-delta.neutral { color: var(--muted); }
+    .back-link {
+      display: inline-block;
+      font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; margin-bottom: 24px;
+    }
+    .back-link:hover { color: var(--accent); }
 
-    /* === Pills === */
-    .pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; }
-    .pill-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-    .pill.proceso   { background: var(--warning-soft); color: var(--warning); }
-    .pill.proceso   .pill-dot { background: var(--warning); }
-    .pill.listo     { background: var(--success-soft); color: var(--success); }
-    .pill.listo     .pill-dot { background: var(--success); }
-    .pill.pendiente { background: var(--info-soft);    color: var(--info);    }
-    .pill.pendiente .pill-dot { background: var(--info); }
-    .pill.entregado { background: var(--surface-2);    color: var(--muted);   border: 1px solid var(--border); }
-    .pill.entregado .pill-dot { background: var(--muted); }
-
-    /* === Filter Pills === */
-    .filter-group { display: flex; gap: 3px; background: var(--bg); padding: 3px; border-radius: 8px; }
-    .filter-pill { padding: 4px 10px; border-radius: 6px; font-size: 11.5px; font-weight: 600; cursor: pointer; border: none; background: none; color: var(--muted); font-family: inherit; transition: background 0.12s, color 0.12s; }
-    .filter-pill.active { background: var(--surface); color: var(--fg); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
-
-    /* === Period Buttons === */
-    .period-group { display: flex; gap: 2px; }
-    .period-btn { padding: 4px 9px; font-size: 11.5px; font-weight: 600; border: none; background: none; color: var(--muted); cursor: pointer; border-radius: 6px; font-family: inherit; transition: background 0.12s, color 0.12s; }
-    .period-btn.active { background: var(--accent-soft); color: var(--accent); }
-
-    /* === Icon Buttons === */
-    .icon-btn { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); display: grid; place-items: center; cursor: pointer; color: var(--muted); transition: background 0.12s, color 0.12s; }
-    .icon-btn:hover { background: var(--bg); color: var(--fg); }
-    .icon-btn:active { transform: translateY(1px); }
-    .icon-btn svg { width: 15px; height: 15px; }
-
-    /* === Search Input === */
-    .search-input { padding: 5px 10px; border: 1px solid var(--border); border-radius: 7px; font-size: 12px; outline: none; background: var(--surface-2); color: var(--fg); font-family: inherit; width: 200px; transition: border-color 0.15s; }
-    .search-input:focus { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px rgba(15,118,110,.12); }
-
-    /* === Nav Badge === */
-    .nav-badge { background: var(--warning); color: #fff; border-radius: 999px; padding: 1px 7px; font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; }
-
-    /* === Table === */
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    thead th { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); padding: 12px 16px 10px; text-align: left; white-space: nowrap; }
-    tbody tr { border-top: 1px solid var(--border); transition: background 0.1s; cursor: pointer; }
-    tbody tr:hover { background: var(--surface-2); }
-    tbody td { padding: 11px 16px; color: var(--fg); font-variant-numeric: tabular-nums; }
-    .td-mono { font-family: ui-monospace,'Cascadia Code',Menlo,monospace; font-size: 12px; color: var(--muted); }
-    .td-bold { font-weight: 700; }
-    .td-muted { color: var(--muted); }
-
-    /* === Progress Track === */
-    .progress-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
-    .progress-fill { height: 100%; border-radius: 2px; background: var(--accent); }
-
-    /* === Bar Chart === */
-    .bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 88px; }
-    .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; }
-    .bar { width: 100%; background: var(--border); border-radius: 4px 4px 0 0; min-height: 3px; }
-    .bar.today { background: var(--accent); }
-    .bar-day { font-size: 9.5px; color: var(--muted); font-variant-numeric: tabular-nums; font-weight: 600; }
-
-    /* === Empty State === */
-    .empty-state { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px; color: var(--muted); }
-    .empty-state svg { opacity: .3; }
-    .empty-state p { font-size: 13px; font-weight: 500; }
-
-    /* === Pagination === */
-    .pagination-bar {
-      padding: 12px 16px;
-      border-top: 1px solid var(--border);
+    /* Card */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
       flex-wrap: wrap;
+      gap: 8px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
     }
-    .pagination-info { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
-    .pagination-actions { display: flex; align-items: center; gap: 8px; }
-    .pagination-btn {
-      padding: 5px 12px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
+    .card-title { font-size: 13px; font-weight: 700; color: var(--fg); }
+    .card-meta { font-size: 11.5px; font-weight: 500; color: var(--muted); }
+    .card-body { padding: 16px; }
+
+    /* KpiCard */
+    .kpi-card {
+      position: relative;
       background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      transition: box-shadow 150ms ease, transform 150ms ease;
+      cursor: pointer;
+    }
+    .kpi-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
+    .kpi-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .kpi-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .kpi-icon {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .kpi-icon svg { width: 17px; height: 17px; stroke-width: 1.8; fill: none; stroke: currentColor; }
+    .kpi-value {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
       color: var(--fg);
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 6px;
+    }
+    .kpi-delta {
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+    .kpi-delta.up { color: var(--success); }
+    .kpi-delta.down { color: var(--danger); }
+    .kpi-delta.neutral { color: var(--muted); }
+    .icon-warn { background: var(--warning-soft); color: var(--warning); }
+    .icon-succ { background: var(--success-soft); color: var(--success); }
+    .icon-info { background: var(--info-soft); color: var(--info); }
+    .icon-purp { background: var(--purple-soft); color: var(--purple); }
+
+    /* ProgressTrack */
+    .progress-track {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 300ms;
+    }
+
+    /* DataTable */
+    .tbl-wrap { width: 100%; overflow-x: auto; }
+    .tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .tbl thead { background: var(--surface-2); }
+    .tbl th {
+      text-align: left;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 10px 16px;
+      white-space: nowrap;
+    }
+    .tbl tbody tr {
+      border-top: 1px solid var(--border);
+      transition: background-color 100ms;
+    }
+    .tbl tbody tr:hover { background: var(--surface-2); }
+    .tbl td {
+      padding: 10px 16px;
+      color: var(--fg);
+      font-variant-numeric: tabular-nums;
+    }
+    .tbl td.t-mono { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+    .tbl td.t-right { text-align: right; }
+    .pill { display:inline-flex; align-items:center; gap:6px; padding:2px 10px; border-radius:999px; font-size:11px; font-weight:700; }
+    .pill .dot { width:6px; height:6px; border-radius:50%; }
+    .pill-success { background:var(--success-soft); color:var(--success); }
+    .pill-success .dot { background:var(--success); }
+    .pill-warning { background:var(--warning-soft); color:var(--warning); }
+    .pill-warning .dot { background:var(--warning); }
+    .pill-info { background:var(--info-soft); color:var(--info); }
+    .pill-info .dot { background:var(--info); }
+
+    /* EmptyState */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 16px;
+      gap: 8px;
+    }
+    .empty-state .icon { opacity: 0.3; margin-bottom: 4px; }
+    .empty-state .icon svg { width: 32px; height: 32px; stroke-width: 1.6; fill: none; stroke: currentColor; }
+    .empty-state .title { font-size: 13px; font-weight: 600; color: var(--fg); }
+    .empty-state .desc { font-size: 11.5px; color: var(--muted); }
+
+    /* Stepper */
+    .stepper { width: 100%; }
+    .stepper-track {
+      position: relative;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .stepper-fill {
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      width: 50%;
+      transition: width 150ms;
+    }
+    .stepper-steps {
+      display: flex;
+      justify-content: space-between;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+    }
+    .step-circle {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .step.active .step-circle, .step.completed .step-circle {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .step-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .step.active .step-label { color: var(--accent); }
+
+    /* ServiceCard */
+    .svc-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      border-radius: var(--radius);
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      background: var(--accent-soft);
+    }
+    .svc-card.unselected {
+      border-color: var(--border);
+      background: var(--surface);
+    }
+    .svc-card input[type=checkbox] {
+      margin-top: 4px;
+      width: 14px; height: 14px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .svc-card .icon-box {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: var(--accent);
+      color: #fff;
+    }
+    .svc-card.unselected .icon-box {
+      background: var(--surface-2);
+      color: var(--muted);
+    }
+    .svc-card .icon-box svg { width: 18px; height: 18px; stroke-width: 1.8; fill: none; stroke: currentColor; }
+    .svc-card .info { flex: 1; min-width: 0; cursor: pointer; }
+    .svc-card .name { font-size: 13px; font-weight: 600; color: var(--fg); }
+    .svc-card .desc { font-size: 11.5px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+    .svc-card .price { font-size: 11.5px; font-weight: 700; color: var(--fg); font-variant-numeric: tabular-nums; margin-top: 4px; }
+    .svc-stepper {
+      display: inline-flex;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      overflow: hidden;
+    }
+    .svc-stepper button {
+      width: 28px; height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .svc-stepper button:hover { background: var(--bg); color: var(--fg); }
+    .svc-stepper input {
+      width: 48px;
+      height: 28px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      background: transparent;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      outline: none;
+    }
+    .svc-stepper .unit { padding: 0 8px; font-size: 11.5px; color: var(--muted); }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .pagination .info { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .pagination .actions { display: inline-flex; gap: 6px; }
+    .pg-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0 12px;
+      height: 28px;
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 7px;
       font-size: 12px;
       font-weight: 600;
-      font-family: inherit;
       cursor: pointer;
-      transition: background 0.12s, color 0.12s, transform 0.12s;
     }
-    .pagination-btn:hover:not(:disabled) { background: var(--bg); }
-    .pagination-btn:disabled { opacity: 0.5; cursor: not-allowed; color: var(--muted); }
-    .pagination-btn:active:not(:disabled) { transform: translateY(1px); }
+    .pg-btn:hover { background: var(--bg); color: var(--fg); }
+    .pg-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .pg-btn svg { width: 12px; height: 12px; stroke-width: 1.8; fill: none; stroke: currentColor; }
 
-    /* === User Avatar === */
-    .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; font-size: 12px; font-weight: 700; color: #fff; }
-    .client-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); display: grid; place-items: center; font-size: 10px; font-weight: 700; color: var(--muted); }
-
-    /* === Buttons === */
-    .btn-new-order {
-      padding: 6px 12px; border-radius: 7px; background: var(--accent); color: #fff;
-      font-size: 12px; font-weight: 700; border: none; cursor: pointer;
-      display: inline-flex; align-items: center; gap: 6px; font-family: inherit;
-      transition: background 0.12s, transform 0.12s;
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.45);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 50;
     }
-    .btn-new-order:hover { background: #0F766E; }
-    .btn-new-order:active { transform: translateY(1px); }
-    .btn-new-order svg { width: 14px; height: 14px; }
-    .btn-secondary {
-      padding: 6px 12px; border-radius: 7px; background: var(--surface); color: var(--muted);
-      font-size: 12px; font-weight: 700; border: 1px solid var(--border); cursor: pointer;
-      display: inline-flex; align-items: center; gap: 6px; font-family: inherit;
-      transition: background 0.12s, color 0.12s, transform 0.12s;
-    }
-    .btn-secondary:hover { background: var(--bg); color: var(--fg); }
-    .btn-secondary:active { transform: translateY(1px); }
-    .btn-secondary svg { width: 14px; height: 14px; }
-    .btn-danger {
-      padding: 6px 10px; border-radius: 7px; background: var(--danger-soft); color: var(--danger);
-      font-size: 12px; font-weight: 700; border: none; cursor: pointer;
-      display: inline-flex; align-items: center; justify-content: center; gap: 4px; font-family: inherit;
-      transition: background 0.12s, transform 0.12s;
-    }
-    .btn-danger:hover { background: #FECACA; }
-    .btn-danger:active { transform: translateY(1px); }
-    .btn-danger svg { width: 14px; height: 14px; }
-
-    /* === Modal === */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(15,23,42,.45); backdrop-filter: blur(2px);
-      display: none; align-items: center; justify-content: center; z-index: 300; padding: 16px;
-    }
-    .modal-overlay.open { display: flex; }
     .modal {
-      background: var(--surface); border-radius: 14px; width: 100%; max-width: 680px;
-      box-shadow: 0 24px 64px rgba(0,0,0,.2); overflow: hidden;
+      width: 100%;
+      max-width: 680px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow-modal);
+      padding: 28px;
+      position: relative;
     }
-    .modal-sm { max-width: 420px; }
-    .modal-head {
-      padding: 16px 20px; border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .modal-title { font-size: 14px; font-weight: 700; color: var(--fg); }
     .modal-close {
-      width: 28px; height: 28px; border-radius: 7px; border: 1px solid var(--border);
-      background: var(--surface-2); color: var(--muted); cursor: pointer;
-      display: grid; place-items: center; font-size: 17px; line-height: 1; font-family: inherit;
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      width: 28px; height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
     }
-    .modal-close:hover { background: var(--bg); }
-    .modal-body { padding: 20px; }
-    .modal-form { display: flex; flex-direction: column; gap: 16px; }
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-group .section-label { margin-bottom: 0; }
-    .form-input {
-      width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 7px;
-      background: var(--surface-2); color: var(--fg); font-size: 14px; font-family: inherit; outline: none;
-      transition: border-color 0.15s, background 0.15s;
+    .modal-close:hover { background: var(--bg); color: var(--fg); }
+    .modal-title { font-size: 15px; font-weight: 700; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .modal-desc { font-size: 11.5px; color: var(--muted); margin-bottom: 16px; }
+    .modal-body { margin-bottom: 16px; }
+    .modal-footer { padding-top: 16px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; }
+
+    /* Inputs */
+    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+    .field label { font-size: 12px; font-weight: 600; color: var(--fg); }
+    .input, .textarea {
+      width: 100%;
+      padding: 8px 10px;
+      background: var(--surface-2);
+      color: var(--fg);
+      font-size: 13px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 150ms, background-color 150ms, box-shadow 150ms;
     }
-    .form-input:hover { border-color: #CBD5E1; }
-    .form-input:focus { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px rgba(15,118,110,.12); }
-    .form-input::placeholder { color: var(--muted); }
-    .modal-actions {
-      display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px;
-      padding-top: 16px; border-top: 1px solid var(--border);
+    .input:focus, .textarea:focus {
+      background: var(--surface);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(15,118,110,.12);
+    }
+    .input.invalid { border-color: var(--danger); }
+    .input.invalid:focus { box-shadow: 0 0 0 3px rgba(220,38,38,0.15); }
+    .textarea { min-height: 80px; resize: vertical; padding: 8px 10px; }
+    .pw-wrap { position: relative; }
+    .pw-wrap input { padding-right: 36px; }
+    .pw-toggle {
+      position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+      width: 24px; height: 24px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--muted);
+      background: none; border: none; cursor: pointer;
+      border-radius: 4px;
+    }
+    .pw-toggle:hover { color: var(--fg); }
+    .pw-toggle svg { width: 14px; height: 14px; stroke-width: 1.8; fill: none; stroke: currentColor; }
+
+    /* Brand icon */
+    .brand-icon {
+      width: 36px; height: 36px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .brand-icon svg { width: 20px; height: 20px; stroke-width: 1.8; fill: none; stroke: currentColor; }
+    .brand-icon.lg { width: 48px; height: 48px; border-radius: 10px; }
+    .brand-icon.lg svg { width: 28px; height: 28px; }
+    .brand-icon.xl { width: 64px; height: 64px; border-radius: 14px; }
+    .brand-icon.xl svg { width: 36px; height: 36px; }
+
+    /* Cycle time composite */
+    .cycle-main { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 4px; }
+    .cycle-value {
+      font-size: 44px; font-weight: 700; letter-spacing: -0.04em;
+      line-height: 1; color: var(--fg); font-variant-numeric: tabular-nums;
+    }
+    .cycle-unit { font-size: 14px; color: var(--muted); padding-bottom: 6px; }
+    .cycle-range {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--muted);
+      font-weight: 600;
+      margin-top: 4px;
+      margin-bottom: 8px;
+    }
+    .cycle-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+    .cycle-stat {
+      padding: 10px 12px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .cycle-stat-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--muted);
+    }
+    .cycle-stat-val {
+      font-size: 17px; font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--fg); margin-top: 3px;
     }
 
-    /* === Service Tabs === */
-    .service-tabs {
-      display: inline-flex; gap: 2px; background: var(--bg); padding: 3px; border-radius: 8px;
+    .code-input {
+      width: 100%;
+      max-width: 160px;
+      padding: 10px 12px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.4em;
+      font-variant-numeric: tabular-nums;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--fg);
+      outline: none;
     }
-    .service-tab {
-      padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;
-      border: none; background: none; color: var(--muted); transition: background 0.12s, color 0.12s; font-family: inherit;
+    .code-input:focus {
+      border-color: var(--accent);
+      background: var(--surface);
+      box-shadow: 0 0 0 3px rgba(15,118,110,.12);
     }
-    .service-tab:hover { color: var(--fg); }
-    .service-tab.active { background: var(--surface); color: var(--fg); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
 
-    /* === Service Search === */
-    .service-search {
-      padding: 5px 10px; border: 1px solid var(--border); border-radius: 7px; font-size: 12px;
-      outline: none; background: var(--surface-2); color: var(--fg); font-family: inherit; width: 170px;
-      transition: border-color 0.15s, background 0.15s;
+    /* Section header (h2) icon */
+    .section-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+      margin-left: 8px;
     }
-    .service-search:hover { border-color: #CBD5E1; }
-    .service-search:focus { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px rgba(15,118,110,.12); }
-    .service-search::placeholder { color: var(--muted); }
-
-    /* === Service Accordion === */
-    .service-accordion { display: flex; flex-direction: column; gap: 8px; }
-    .accordion-item { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); overflow: hidden; }
-    .accordion-header {
-      width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px;
-      padding: 11px 12px; border: none; background: var(--surface); color: var(--fg);
-      font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; transition: background 0.12s; text-align: left;
-    }
-    .accordion-header:hover { background: var(--surface-2); }
-    .accordion-icon { width: 16px; height: 16px; color: var(--muted); transition: transform 0.15s; }
-    .accordion-header[aria-expanded="true"] .accordion-icon { transform: rotate(180deg); }
-    .accordion-body { display: none; padding: 0 12px 12px; flex-direction: column; gap: 10px; }
-    .accordion-body.open { display: flex; }
-    .accordion-count { font-size: 11px; font-weight: 600; color: var(--muted); margin-left: auto; padding-right: 8px; }
-
-    /* === Service Card === */
-    .service-card {
-      display: flex; align-items: center; gap: 12px; padding: 12px;
-      border: 1px solid var(--border); border-radius: 8px; background: var(--surface);
-    }
-    .service-check {
-      width: 18px; height: 18px; border: 2px solid var(--border); border-radius: 5px;
-      display: grid; place-items: center; flex-shrink: 0;
-    }
-    .service-check svg { width: 11px; height: 11px; color: #fff; display: none; }
-    .service-card.selected { border-color: var(--accent); background: var(--accent-soft); }
-    .service-card.selected .service-check { background: var(--accent); border-color: var(--accent); }
-    .service-card.selected .service-check svg { display: block; }
-    .service-info { flex: 1; min-width: 0; }
-    .service-name { font-size: 13px; font-weight: 700; color: var(--fg); }
-    .service-desc { font-size: 12px; color: var(--muted); }
-    .service-price { font-size: 13px; font-weight: 700; color: var(--fg); white-space: nowrap; font-variant-numeric: tabular-nums; }
-    .stepper { display: flex; align-items: center; gap: 4px; }
-    .stepper button {
-      width: 26px; height: 26px; border: 1px solid var(--border); background: var(--surface);
-      color: var(--fg); border-radius: 6px; cursor: pointer; display: grid; place-items: center;
-      font-weight: 700; transition: background 0.12s;
-    }
-    .stepper button:hover { background: var(--bg); }
-    .stepper input {
-      width: 38px; height: 26px; text-align: center; border: 1px solid var(--border); border-radius: 6px;
-      background: var(--surface-2); color: var(--fg); font-size: 13px; font-weight: 700; font-family: inherit;
-      -moz-appearance: textfield;
-    }
-    .stepper input::-webkit-outer-spin-button,
-    .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-
-    /* === Toggle Switch === */
-    .toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; }
-    .toggle-label { font-size: 13px; font-weight: 600; color: var(--fg); }
-    .toggle-hint { font-size: 11px; color: var(--muted); }
-    .toggle-switch {
-      width: 40px; height: 22px; border-radius: 999px; background: var(--border);
-      position: relative; cursor: pointer; border: none; padding: 0; transition: background 0.15s; flex-shrink: 0;
-    }
-    .toggle-switch.on { background: var(--accent); }
-    .toggle-switch::after {
-      content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px;
-      border-radius: 50%; background: #fff; transition: transform 0.15s; box-shadow: 0 1px 2px rgba(0,0,0,.15);
-    }
-    .toggle-switch.on::after { transform: translateX(18px); }
   </style>
 </head>
 <body>
+  <main class="container">
+    <a class="back-link" href="index.html">← Volver</a>
+    <div class="breadcrumb">05 · Componentes</div>
+    <h1>Catálogo de componentes</h1>
+    <p class="lead">
+      Implementaciones reales de <code>@lavanderpro/ui</code>. Estos son los componentes
+      efectivamente disponibles — lo que ves aquí es lo que se renderiza cuando los importas.
+    </p>
 
-<nav><a href="index.html">← Volver al índice</a></nav>
-<h1>Components</h1>
-<p class="subtitle">Catálogo completo de componentes — Github Dashboard Design System</p>
-
-<!-- KPI Cards -->
-<div class="section-label">KPI Cards</div>
-<div class="kpi-grid">
-  <div class="kpi-card">
-    <div class="kpi-label">Pedidos Activos</div>
-    <div class="kpi-icon" style="background:var(--warning-soft)">
-      <svg viewBox="0 0 16 16" fill="none" stroke="var(--warning)" stroke-width="1.8" width="17" height="17"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 5h6M5 8h6M5 11h4"/></svg>
-    </div>
-    <div class="kpi-value">24</div>
-    <div class="kpi-delta up">↑ +3 vs. ayer</div>
-  </div>
-  <div class="kpi-card">
-    <div class="kpi-label">Ingresos Hoy</div>
-    <div class="kpi-icon" style="background:var(--success-soft)">
-      <svg viewBox="0 0 16 16" fill="none" stroke="var(--success)" stroke-width="1.8" width="17" height="17"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v1M8 11v.5M5.5 9.5a2.5 2.5 0 005 0c0-1.38-1.12-2.5-2.5-2.5S5.5 6.12 5.5 8"/></svg>
-    </div>
-    <div class="kpi-value">$4,280</div>
-    <div class="kpi-delta up">↑ +12% vs. ayer</div>
-  </div>
-  <div class="kpi-card">
-    <div class="kpi-label">Ciclo Promedio</div>
-    <div class="kpi-icon" style="background:var(--purple-soft)">
-      <svg viewBox="0 0 16 16" fill="none" stroke="var(--purple)" stroke-width="1.8" width="17" height="17"><circle cx="8" cy="8" r="6.5"/><path d="M8 4v4l2.5 2"/></svg>
-    </div>
-    <div class="kpi-value">38 <span style="font-size:14px;font-weight:500;color:var(--muted)">min</span></div>
-    <div class="kpi-delta neutral">Meta: 35 min</div>
-  </div>
-</div>
-
-<!-- Status Pills -->
-<div class="section-label">Status Pills</div>
-<div class="comp-card">
-  <div class="row">
-    <span class="pill proceso"><span class="pill-dot"></span>En proceso</span>
-    <span class="pill listo"><span class="pill-dot"></span>Listo</span>
-    <span class="pill pendiente"><span class="pill-dot"></span>Pendiente</span>
-    <span class="pill entregado"><span class="pill-dot"></span>Entregado</span>
-  </div>
-</div>
-
-<!-- Filter & Period Pills -->
-<div class="section-label">Filter Pills & Period Buttons</div>
-<div class="comp-card">
-  <h3>Filter pills (tab-style)</h3>
-  <div class="row">
-    <div class="filter-group">
-      <button class="filter-pill active">Todos</button>
-      <button class="filter-pill">En proceso</button>
-      <button class="filter-pill">Listos</button>
-      <button class="filter-pill">Pendientes</button>
-    </div>
-  </div>
-  <div style="margin-top:16px">
-    <h3>Period buttons</h3>
-    <div style="margin-top:10px">
-      <div class="period-group">
-        <button class="period-btn active">Día</button>
-        <button class="period-btn">Semana</button>
-        <button class="period-btn">Mes</button>
+    <h2>Card + CardHeader/Title/Meta/Body</h2>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Pedidos en Proceso</span>
+          <span class="card-meta">8 en vuelo</span>
+        </div>
+        <div class="card-body">
+          <p style="font-size:13px;color:var(--muted)">
+            Tabla de pedidos activos con filtro por estado. Pasa el mouse sobre una fila para ver el detalle.
+          </p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Historial de Órdenes</span>
+          <span class="card-meta">Últimos 30 días</span>
+        </div>
+        <div class="card-body">
+          <p style="font-size:13px;color:var(--muted)">
+            Tabla de órdenes entregadas con búsqueda por cliente u orden ID.
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Icon Buttons & Nav Badge -->
-<div class="section-label">Icon Buttons & Badges</div>
-<div class="comp-card">
-  <div class="row">
-    <button class="icon-btn" title="Notificaciones">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15"><path d="M8 1a5 5 0 015 5v3l1.5 2.5H1.5L3 9V6a5 5 0 015-5z"/><path d="M6.5 13.5a1.5 1.5 0 003 0"/></svg>
-    </button>
-    <button class="icon-btn" title="Actualizar">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15"><path d="M13.5 2.5A7 7 0 112 9"/><path d="M2 4V9h5"/></svg>
-    </button>
-    <span style="font-size:13px;color:var(--muted)">Nav badge:</span>
-    <span class="nav-badge">24</span>
-  </div>
-</div>
-
-<!-- Search Input -->
-<div class="section-label">Search Input</div>
-<div class="comp-card">
-  <input class="search-input" type="search" placeholder="Buscar cliente u orden…">
-</div>
-
-<!-- Progress Track -->
-<div class="section-label">Progress Track</div>
-<div class="comp-card">
-  <div style="margin-bottom:8px;font-size:12px;color:var(--muted)">63% — 38 min de 60 min meta</div>
-  <div class="progress-track"><div class="progress-fill" style="width:63%"></div></div>
-  <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px"><span>0</span><span>Meta 35 min</span><span>60 min</span></div>
-</div>
-
-<!-- Bar Chart -->
-<div class="section-label">Bar Chart (Revenue)</div>
-<div class="comp-card">
-  <div class="bar-chart">
-    <div class="bar-col"><div class="bar" style="height:75%"></div><span class="bar-day">Lu</span></div>
-    <div class="bar-col"><div class="bar" style="height:89%"></div><span class="bar-day">Ma</span></div>
-    <div class="bar-col"><div class="bar" style="height:96%"></div><span class="bar-day">Mi</span></div>
-    <div class="bar-col"><div class="bar" style="height:82%"></div><span class="bar-day">Ju</span></div>
-    <div class="bar-col"><div class="bar" style="height:91%"></div><span class="bar-day">Vi</span></div>
-    <div class="bar-col"><div class="bar" style="height:65%"></div><span class="bar-day">Sa</span></div>
-    <div class="bar-col"><div class="bar today" style="height:100%"></div><span class="bar-day">Hoy</span></div>
-  </div>
-</div>
-
-<!-- Data Table -->
-<div class="section-label">Data Table</div>
-<div class="comp-card" style="padding:0">
-  <div style="overflow-x:auto">
-    <table>
-      <thead>
-        <tr>
-          <th>N° ORDEN</th><th>CLIENTE</th><th>SERVICIO</th><th>KG</th><th>ESTADO</th><th>ENTRADA</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="td-mono">ORD-2847</td>
-          <td class="td-bold">Hotel Presidente</td>
-          <td class="td-muted">Lavado Industrial</td>
-          <td class="td-muted" style="text-align:right">42</td>
-          <td><span class="pill proceso"><span class="pill-dot"></span>En proceso</span></td>
-          <td class="td-mono">08:15</td>
-        </tr>
-        <tr>
-          <td class="td-mono">ORD-2848</td>
-          <td class="td-bold">Rest. La Hacienda</td>
-          <td class="td-muted">Lavado + Secado</td>
-          <td class="td-muted" style="text-align:right">18</td>
-          <td><span class="pill listo"><span class="pill-dot"></span>Listo</span></td>
-          <td class="td-mono">07:45</td>
-        </tr>
-        <tr>
-          <td class="td-mono">ORD-2849</td>
-          <td class="td-bold">Spa Relax Center</td>
-          <td class="td-muted">Lavado Delicado</td>
-          <td class="td-muted" style="text-align:right">12</td>
-          <td><span class="pill pendiente"><span class="pill-dot"></span>Pendiente</span></td>
-          <td class="td-mono">09:00</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- Pagination -->
-<div class="section-label">Pagination</div>
-<div class="comp-card" style="padding:0">
-  <div style="overflow-x:auto">
-    <table>
-      <thead>
-        <tr><th>NOMBRE</th><th>CATEGORÍA</th><th>PRECIO</th></tr>
-      </thead>
-      <tbody>
-        <tr><td class="td-bold">Básico</td><td class="td-muted">Servicios generales</td><td class="td-muted" style="text-align:right">$12</td></tr>
-        <tr><td class="td-bold">Blanqueamiento</td><td class="td-muted">Servicios generales</td><td class="td-muted" style="text-align:right">$18</td></tr>
-        <tr><td class="td-bold">Centrifugado</td><td class="td-muted">Servicios generales</td><td class="td-muted" style="text-align:right">$8</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="pagination-bar">
-    <span class="pagination-info">Mostrando 1–3 de 12 servicios · Página 1 de 4</span>
-    <div class="pagination-actions">
-      <button type="button" class="pagination-btn" disabled>Anterior</button>
-      <button type="button" class="pagination-btn">Siguiente</button>
-    </div>
-  </div>
-</div>
-
-<!-- Empty State -->
-<div class="section-label">Empty State</div>
-<div class="comp-card">
-  <div class="empty-state">
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6">
-      <rect x="4" y="4" width="24" height="24" rx="4"/>
-      <path d="M10 10h12M10 16h12M10 22h8"/>
-    </svg>
-    <p>Sin pedidos en este estado</p>
-  </div>
-</div>
-
-<!-- Buttons -->
-<div class="section-label">Buttons</div>
-<div class="comp-card">
-  <div class="row">
-    <button class="btn-new-order">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2v12M2 8h12"/></svg>
-      <span>Nuevo servicio</span>
-    </button>
-    <button class="btn-secondary">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2v12M2 8h12"/></svg>
-      <span>Nuevo cliente</span>
-    </button>
-    <button class="btn-danger">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4h12M6 4V2h4v2M5 4v9h6V4"/></svg>
-      <span>Eliminar</span>
-    </button>
-  </div>
-</div>
-
-<!-- Modal -->
-<div class="section-label">Modal</div>
-<div class="comp-card">
-  <div class="row">
-    <button type="button" class="btn-secondary" onclick="openModal('demoModal')">Abrir modal de formulario</button>
-    <button type="button" class="btn-danger" onclick="openModal('demoConfirmModal')">Abrir confirmación</button>
-  </div>
-</div>
-
-<!-- Service Tabs & Search -->
-<div class="section-label">Service Tabs & Search</div>
-<div class="comp-card">
-  <div class="row" style="justify-content:space-between">
-    <div class="service-tabs" role="tablist" aria-label="Vista de servicios">
-      <button type="button" class="service-tab active" role="tab" aria-selected="true">Populares</button>
-      <button type="button" class="service-tab" role="tab" aria-selected="false">Categorías</button>
-    </div>
-    <input type="search" class="service-search" placeholder="Buscar servicio…" aria-label="Buscar servicio">
-  </div>
-</div>
-
-<!-- Service Accordion -->
-<div class="section-label">Service Accordion</div>
-<div class="comp-card">
-  <div class="service-accordion">
-    <div class="accordion-item">
-      <button type="button" class="accordion-header" aria-expanded="true">
-        <span>Servicios generales</span>
-        <span class="accordion-count">2 servicios</span>
-        <svg class="accordion-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6l5 5 5-5"/></svg>
-      </button>
-      <div class="accordion-body open">
-        <div class="service-card selected">
-          <div class="service-check"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 8l3 3 7-7"/></svg></div>
-          <div class="service-info">
-            <div class="service-name">Lavado Industrial</div>
-            <div class="service-desc">Carga pesada, hoteles y restaurantes</div>
-          </div>
-          <div class="service-price">$18 / kg</div>
-          <div class="stepper">
-            <button type="button">−</button>
-            <input type="number" value="2" min="0" max="99">
-            <button type="button">+</button>
+    <h2>KpiCard <span class="section-tag">kpi-card.tsx</span></h2>
+    <div class="grid-3">
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-label">Pedidos Activos</span>
+          <div class="kpi-icon icon-warn">
+            <svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 5h6M5 8h6M5 11h4"/></svg>
           </div>
         </div>
-        <div class="service-card">
-          <div class="service-check"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 8l3 3 7-7"/></svg></div>
-          <div class="service-info">
-            <div class="service-name">Básico</div>
-            <div class="service-desc">Lavado estándar por kg</div>
+        <div class="kpi-value">24</div>
+        <div class="kpi-delta up">+3 vs. ayer</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-label">Ingresos Hoy</span>
+          <div class="kpi-icon icon-succ">
+            <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v1M8 11v.5M5.5 9.5a2.5 2.5 0 005 0c0-1.38-1.12-2.5-2.5-2.5S5.5 6.12 5.5 8"/></svg>
           </div>
-          <div class="service-price">$12 / kg</div>
-          <div class="stepper">
-            <button type="button">−</button>
-            <input type="number" value="0" min="0" max="99">
-            <button type="button">+</button>
+        </div>
+        <div class="kpi-value">$4,280</div>
+        <div class="kpi-delta up">+12% vs. ayer</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-label">Ciclo Promedio</span>
+          <div class="kpi-icon icon-purp">
+            <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5"/><path d="M8 4v4l2.5 2"/></svg>
+          </div>
+        </div>
+        <div class="kpi-value">38 min</div>
+        <div class="kpi-delta neutral">Meta: 35 min</div>
+      </div>
+    </div>
+    <p style="margin-top:12px;font-size:11px;color:var(--muted)">
+      Hover lift: <code>translateY(-2px)</code> + <code>shadow-hover</code> · 150ms.
+      Icono 34px · value 28px/700/−0.02em · delta 11.5px con color semántico.
+    </p>
+
+    <h2>ProgressTrack <span class="section-tag">progress-track.tsx</span></h2>
+    <div class="spec">
+      <div style="display:flex;flex-direction:column;gap:16px;max-width:520px">
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:11px;color:var(--muted)">
+            <span>Sincronización offline</span>
+            <span style="font-variant-numeric:tabular-nums">38%</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:38%"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:11px;color:var(--muted)">
+            <span>Tiempo de ciclo</span>
+            <span style="font-variant-numeric:tabular-nums">63%</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:63%"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:11px;color:var(--muted)">
+            <span>Completado</span>
+            <span style="font-variant-numeric:tabular-nums">100%</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <h2>DataTable <span class="section-tag">data-table.tsx</span></h2>
+    <div class="spec" style="padding:0">
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th>N° Orden</th>
+              <th>Cliente</th>
+              <th>Servicio</th>
+              <th class="t-right">KG</th>
+              <th>Estado</th>
+              <th>Entrada</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="t-mono">ORD-2847</td>
+              <td>Hotel Presidente</td>
+              <td>Lavado Industrial</td>
+              <td class="t-right">42</td>
+              <td><span class="pill pill-warning"><span class="dot"></span>En proceso</span></td>
+              <td class="t-mono">08:15</td>
+            </tr>
+            <tr>
+              <td class="t-mono">ORD-2848</td>
+              <td>Rest. La Hacienda</td>
+              <td>Lavado + Secado</td>
+              <td class="t-right">18</td>
+              <td><span class="pill pill-success"><span class="dot"></span>Listo</span></td>
+              <td class="t-mono">07:45</td>
+            </tr>
+            <tr>
+              <td class="t-mono">ORD-2849</td>
+              <td>Spa Relax Center</td>
+              <td>Lavado Delicado</td>
+              <td class="t-right">12</td>
+              <td><span class="pill pill-info"><span class="dot"></span>Pendiente</span></td>
+              <td class="t-mono">09:00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h2>EmptyState <span class="section-tag">empty-state.tsx</span></h2>
+    <div class="spec">
+      <div class="empty-state">
+        <div class="icon">
+          <svg viewBox="0 0 32 32"><rect x="4" y="4" width="24" height="24" rx="4"/><path d="M10 10h12M10 16h12M10 22h8"/></svg>
+        </div>
+        <div class="title">Sin pedidos en este estado</div>
+        <div class="desc">Cuando se creen pedidos activos aparecerán aquí.</div>
+      </div>
+    </div>
+
+    <h2>Stepper <span class="section-tag">stepper.tsx</span></h2>
+    <div class="spec">
+      <div class="stepper">
+        <div class="stepper-track"><div class="stepper-fill" style="width:50%"></div></div>
+        <div class="stepper-steps">
+          <div class="step completed">
+            <div class="step-circle">✓</div>
+            <div class="step-label">Negocio</div>
+          </div>
+          <div class="step active">
+            <div class="step-circle">2</div>
+            <div class="step-label">Sucursal</div>
+          </div>
+          <div class="step">
+            <div class="step-circle">3</div>
+            <div class="step-label">WhatsApp</div>
           </div>
         </div>
       </div>
     </div>
-    <div class="accordion-item">
-      <button type="button" class="accordion-header" aria-expanded="false">
-        <span>Edredones</span>
-        <span class="accordion-count">1 servicio</span>
-        <svg class="accordion-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6l5 5 5-5"/></svg>
-      </button>
-      <div class="accordion-body">
-        <div class="service-card">
-          <div class="service-check"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 8l3 3 7-7"/></svg></div>
-          <div class="service-info">
-            <div class="service-name">Lavado de Edredón</div>
-            <div class="service-desc">Edredones y cobertores</div>
+
+    <h2>ServiceCard <span class="section-tag">service-card.tsx</span></h2>
+    <div class="grid-2">
+      <div class="svc-card">
+        <input type="checkbox" checked>
+        <div class="icon-box">
+          <svg viewBox="0 0 16 16"><path d="M8 2v12M2 8h12"/></svg>
+        </div>
+        <div class="info">
+          <div class="name">Lavado Industrial</div>
+          <div class="desc">Para hoteles y restaurantes. Tiempo: 35 min.</div>
+          <div class="price">$20 / kg</div>
+        </div>
+        <div class="svc-stepper">
+          <button aria-label="Disminuir"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10"/></svg></button>
+          <input value="42" type="number">
+          <button aria-label="Aumentar"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3v10M3 8h10"/></svg></button>
+          <span class="unit">kg</span>
+        </div>
+      </div>
+      <div class="svc-card unselected">
+        <input type="checkbox">
+        <div class="icon-box">
+          <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/></svg>
+        </div>
+        <div class="info">
+          <div class="name">Planchado</div>
+          <div class="desc">Camisas, pantalones y vestidos.</div>
+          <div class="price">$15 / pz</div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Pagination <span class="section-tag">pagination.tsx</span></h2>
+    <div class="spec" style="padding:0">
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Cliente</th><th>Total</th></tr></thead>
+          <tbody>
+            <tr><td>Hotel Presidente</td><td class="t-mono">$8,400</td></tr>
+            <tr><td>Rest. La Hacienda</td><td class="t-mono">$2,880</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <span class="info">Mostrando 1–10 de 47 · Página 1 de 5</span>
+        <div class="actions">
+          <button class="pg-btn" disabled>
+            <svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5"/></svg>
+            Anterior
+          </button>
+          <button class="pg-btn">
+            Siguiente
+            <svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <h2>Modal <span class="section-tag">modal.tsx</span></h2>
+    <p style="margin-bottom:16px;font-size:12px;color:var(--muted)">
+      Construido con Radix Dialog · max-width 680px · 14px radius · <code>shadow-modal</code>.
+    </p>
+    <div class="modal-backdrop" style="position:static;background:var(--surface-2);min-height:auto;padding:0">
+      <div class="modal" style="box-shadow:var(--shadow)">
+        <button class="modal-close" aria-label="Cerrar">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14">
+            <path d="M4 4l8 8M12 4l-8 8"/>
+          </svg>
+        </button>
+        <h3 class="modal-title">Detalle de Orden · ORD-2847</h3>
+        <div class="modal-body" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:3px">Cliente</div>
+            <div style="font-size:14px;font-weight:600">Hotel Presidente</div>
           </div>
-          <div class="service-price">$55 / pz</div>
-          <div class="stepper">
-            <button type="button">−</button>
-            <input type="number" value="0" min="0" max="99">
-            <button type="button">+</button>
+          <div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:3px">Servicio</div>
+            <div style="font-size:14px;font-weight:600">Lavado Industrial</div>
+          </div>
+          <div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:3px">Peso</div>
+            <div style="font-size:14px;font-weight:600">42 kg</div>
+          </div>
+          <div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:3px">Estado</div>
+            <div><span class="pill pill-warning"><span class="dot"></span>En proceso</span></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary">Cancelar</button>
+          <button class="btn btn-primary">Avanzar a Listo</button>
+        </div>
+      </div>
+    </div>
+
+    <h2>Inputs · Input · PasswordInput · Textarea · CodeInput</h2>
+    <div class="spec">
+      <div class="grid-2" style="gap:24px">
+        <div>
+          <div class="field">
+            <label>Email</label>
+            <input class="input" value="carlos@lavanderpro.mx">
+          </div>
+          <div class="field">
+            <label>Contraseña</label>
+            <div class="pw-wrap">
+              <input class="input" type="password" value="password123">
+              <button class="pw-toggle" aria-label="Mostrar contraseña">
+                <svg viewBox="0 0 16 16"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z"/><circle cx="8" cy="8" r="2.5"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Email (con error)</label>
+            <input class="input invalid" value="carlos@">
+          </div>
+        </div>
+        <div>
+          <div class="field">
+            <label>Notas</label>
+            <textarea class="textarea" placeholder="Cliente solicita entrega antes de las 17:00…"></textarea>
+          </div>
+          <div class="field">
+            <label>Código de verificación WhatsApp</label>
+            <input class="code-input" value="482910" maxlength="6">
+            <div style="font-size:11px;color:var(--muted);margin-top:4px">
+              Demo: 482910 · Vence en 4:32
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Toggle Switch -->
-<div class="section-label">Toggle Switch</div>
-<div class="comp-card">
-  <div class="toggle-row">
-    <div>
-      <div class="toggle-label">Marcar como popular</div>
-      <div class="toggle-hint">Aparecerá en la pestaña Populares del POS.</div>
-    </div>
-    <button type="button" class="toggle-switch on" aria-pressed="true"></button>
-  </div>
-</div>
-
-<!-- Avatars -->
-<div class="section-label">Avatars</div>
-<div class="comp-card">
-  <div class="row">
-    <div style="display:flex;align-items:center;gap:10px">
-      <div class="user-avatar">CR</div>
-      <div>
-        <div style="font-size:13px;font-weight:700">C. Rodríguez</div>
-        <div style="font-size:11px;color:var(--muted)">Administrador</div>
-      </div>
-    </div>
-    <div style="width:1px;height:36px;background:var(--border)"></div>
-    <div style="display:flex;align-items:center;gap:10px">
-      <div class="client-avatar">HP</div>
-      <div>
-        <div style="font-size:13px;font-weight:600">Hotel Presidente</div>
-        <div style="font-size:11px;color:var(--muted)">Último pedido: Hoy 09:10</div>
-      </div>
-      <div style="margin-left:auto;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--accent)">48 pedidos</div>
-    </div>
-  </div>
-</div>
-
-<!-- Demo modals -->
-<div class="modal-overlay" id="demoModal" onclick="closeModal(event)">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-head">
-      <span class="modal-title">Nuevo servicio</span>
-      <button class="modal-close" onclick="closeModalDirect('demoModal')" aria-label="Cerrar">×</button>
-    </div>
-    <div class="modal-body">
-      <form class="modal-form" onsubmit="event.preventDefault(); closeModalDirect('demoModal');">
-        <div class="form-group">
-          <label class="section-label" for="demoName">Nombre del servicio</label>
-          <input type="text" id="demoName" class="form-input" placeholder="Ej. Lavado de edredón">
+    <h2>BrandIcon <span class="section-tag">brand-icon.tsx</span></h2>
+    <div class="spec" style="display:flex;align-items:center;gap:32px">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <div class="brand-icon">
+          <svg viewBox="0 0 16 16"><path d="M8 2C8 2 3 7 3 10.5a5 5 0 0010 0C13 7 8 2 8 2z"/><path d="M6 11a2.5 2.5 0 004 0" stroke-width="1.4"/></svg>
         </div>
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" onclick="closeModalDirect('demoModal')">Cancelar</button>
-          <button type="submit" class="btn-new-order">Guardar servicio</button>
+        <div style="font-size:11px;color:var(--muted);font-family:var(--font-mono)">36px · default</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <div class="brand-icon lg">
+          <svg viewBox="0 0 16 16"><path d="M8 2C8 2 3 7 3 10.5a5 5 0 0010 0C13 7 8 2 8 2z"/><path d="M6 11a2.5 2.5 0 004 0" stroke-width="1.4"/></svg>
         </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="demoConfirmModal" onclick="closeModal(event)">
-  <div class="modal modal-sm" onclick="event.stopPropagation()">
-    <div class="modal-head">
-      <span class="modal-title">¿Eliminar servicio?</span>
-      <button class="modal-close" onclick="closeModalDirect('demoConfirmModal')" aria-label="Cerrar">×</button>
-    </div>
-    <div class="modal-body">
-      <p style="font-size:13.5px;line-height:1.5;color:var(--fg);margin:0 0 18px">¿Estás seguro de eliminar <strong>"Lavado Industrial"</strong>? Esta acción no se puede deshacer.</p>
-      <div class="modal-actions" style="border-top:none;padding-top:0;margin-top:0">
-        <button type="button" class="btn-secondary" onclick="closeModalDirect('demoConfirmModal')">Cancelar</button>
-        <button type="button" class="btn-danger" onclick="closeModalDirect('demoConfirmModal')">Eliminar</button>
+        <div style="font-size:11px;color:var(--muted);font-family:var(--font-mono)">48px</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <div class="brand-icon xl">
+          <svg viewBox="0 0 16 16"><path d="M8 2C8 2 3 7 3 10.5a5 5 0 0010 0C13 7 8 2 8 2z"/><path d="M6 11a2.5 2.5 0 004 0" stroke-width="1.4"/></svg>
+        </div>
+        <div style="font-size:11px;color:var(--muted);font-family:var(--font-mono)">64px</div>
+      </div>
+      <div style="flex:1;padding-left:24px;border-left:1px solid var(--border);font-size:12px;color:var(--muted);line-height:1.5">
+        Gota blanca sobre cuadrado <code>--accent</code> (teal).<br>
+        Color SIEMPRE teal — fidelidad con DESIGN.md §2.<br>
+        Para otras marcas usar componente distinto en app consumidora.
       </div>
     </div>
-  </div>
-</div>
 
-<script>
-  function openModal(id) { document.getElementById(id).classList.add('open'); }
-  function closeModalDirect(id) { document.getElementById(id).classList.remove('open'); }
-  function closeModal(e) { if (e.target.classList.contains('modal-overlay')) closeModalDirect(e.target.id); }
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      ['demoModal','demoConfirmModal'].forEach(function(id) { closeModalDirect(id); });
-    }
-  });
-</script>
-
+    <h2>Composición · Cycle Time (componible, no hay componente dedicado)</h2>
+    <div class="spec">
+      <div style="max-width:480px">
+        <div class="cycle-main">
+          <span class="cycle-value">38</span>
+          <span class="cycle-unit">min promedio</span>
+        </div>
+        <div class="cycle-range">
+          <span>0</span><span>Meta 35 min</span><span>60 min</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:63%"></div></div>
+        <div class="cycle-stats">
+          <div class="cycle-stat"><div class="cycle-stat-label">Mínimo</div><div class="cycle-stat-val">22 min</div></div>
+          <div class="cycle-stat"><div class="cycle-stat-label">Máximo</div><div class="cycle-stat-val">54 min</div></div>
+          <div class="cycle-stat"><div class="cycle-stat-label">Fase lavado</div><div class="cycle-stat-val">25 min</div></div>
+          <div class="cycle-stat"><div class="cycle-stat-label">Fase secado</div><div class="cycle-stat-val">13 min</div></div>
+        </div>
+      </div>
+      <p style="margin-top:12px;font-size:11px;color:var(--muted)">
+        ⚠️ Componible hoy con ProgressTrack. CycleStats / CycleStat no existen como
+        componente dedicado — drift menor respecto a §6.
+      </p>
+    </div>
+  </main>
 </body>
 </html>

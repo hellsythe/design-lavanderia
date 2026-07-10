@@ -3,187 +3,275 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Spacing, Radius & Shadows — Github Dashboard Design System</title>
+  <title>Spacing & Radius — LavanderPro Design System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../variables.css">
   <style>
-    :root {
-      --bg: #F0F4F8; --surface: #FFFFFF; --surface-2: #F8FAFC;
-      --fg: #1A2332; --muted: #64748B; --border: #E1E8F0;
-      --accent: #0F766E;
-      --radius: 10px;
-      --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 14px; }
     body {
-      font-family: 'Public Sans', system-ui, sans-serif;
-      background: var(--bg); color: var(--fg);
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
       -webkit-font-smoothing: antialiased;
-      padding: 40px 32px;
     }
-    nav { margin-bottom: 32px; }
-    nav a { font-size: 12px; color: var(--accent); text-decoration: none; }
-    h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
-    .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 36px; }
-    .section-label {
-      font-size: 10px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.09em; color: var(--muted);
-      margin-bottom: 14px; margin-top: 32px;
+    .container { max-width: 1080px; margin: 0 auto; padding: 56px 24px 96px; }
+    .breadcrumb {
+      font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px;
     }
-    .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); box-shadow: var(--shadow);
-      padding: 24px; margin-bottom: 12px;
+    h1 {
+      font-size: 30px; font-weight: 700; letter-spacing: -0.03em;
+      margin-bottom: 8px;
     }
+    .lead { color: var(--muted); max-width: 640px; line-height: 1.5; margin-bottom: 48px; }
+    h2 {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.09em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 16px; padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    section { margin-bottom: 56px; }
 
-    /* Spacing scale */
-    .space-row {
-      display: flex; align-items: center; gap: 16px; margin-bottom: 10px;
+    /* Spacing scale table */
+    .scale-table {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
     }
-    .space-bar {
-      background: var(--accent); border-radius: 2px; height: 16px; flex-shrink: 0;
+    .scale-row {
+      display: grid;
+      grid-template-columns: 80px 1fr 120px;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
     }
-    .space-label { font-size: 12px; font-weight: 600; width: 36px; flex-shrink: 0; font-family: ui-monospace, Menlo, monospace; }
-    .space-desc { font-size: 11.5px; color: var(--muted); }
+    .scale-row:first-child { border-top: none; background: var(--surface-2); }
+    .scale-row:first-child > * { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+    .scale-token { font-family: var(--font-mono); font-size: 11px; color: var(--accent); }
+    .scale-bar {
+      height: 12px;
+      background: var(--accent);
+      border-radius: 4px;
+    }
+    .scale-px { font-family: var(--font-mono); font-size: 12px; color: var(--muted); text-align: right; }
 
-    /* Radius demo */
+    /* Radius */
     .radius-grid {
-      display: flex; flex-wrap: wrap; gap: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 16px;
     }
-    .radius-box {
-      width: 80px; height: 56px;
-      background: var(--accent-soft, #CCFBF1);
-      border: 1.5px solid var(--accent);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 4px;
+    .radius-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      text-align: center;
     }
-    .radius-val { font-size: 12px; font-weight: 700; color: var(--accent); font-family: ui-monospace, Menlo, monospace; }
-    .radius-ctx { font-size: 9.5px; color: var(--muted); text-align: center; line-height: 1.3; }
+    .radius-sample {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 12px;
+      background: var(--accent);
+    }
+    .radius-name {
+      font-size: 12px; font-weight: 700; color: var(--fg); margin-bottom: 2px;
+    }
+    .radius-value {
+      font-family: var(--font-mono); font-size: 11px; color: var(--muted);
+    }
+    .radius-token {
+      font-family: var(--font-mono); font-size: 10px; color: var(--accent); margin-top: 4px;
+    }
 
-    /* Shadow demo */
-    .shadow-grid { display: flex; flex-wrap: wrap; gap: 24px; }
-    .shadow-box {
-      width: 160px; height: 80px;
+    /* Shadows */
+    .shadow-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .shadow-card {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 32px 20px 20px;
+      text-align: center;
+    }
+    .shadow-sample {
+      width: 100%;
+      height: 100px;
       background: var(--surface);
       border-radius: var(--radius);
-      border: 1px solid var(--border);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 4px;
+      margin-bottom: 16px;
     }
-    .shadow-name { font-size: 11.5px; font-weight: 700; color: var(--fg); }
-    .shadow-use  { font-size: 10px; color: var(--muted); }
+    .shadow-name { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+    .shadow-value {
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--muted); line-height: 1.4;
+    }
+    .shadow-token {
+      font-family: var(--font-mono); font-size: 10px;
+      color: var(--accent); margin-top: 4px;
+    }
+    .back-link {
+      display: inline-block;
+      font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; margin-bottom: 24px;
+    }
+    .back-link:hover { color: var(--accent); }
   </style>
 </head>
 <body>
+  <main class="container">
+    <a class="back-link" href="index.html">← Volver</a>
+    <div class="breadcrumb">03 · Tokens</div>
+    <h1>Spacing & Radius</h1>
+    <p class="lead">
+      Grid base de <strong>4px atómico · 8px estándar</strong>. El padding principal es
+      24px desktop / 16px mobile. Border radius y shadows se exponen como tokens
+      reutilizables.
+    </p>
 
-<nav><a href="index.html">← Volver al índice</a></nav>
-<h1>Spacing, Radius & Shadows</h1>
-<p class="subtitle">Sistema de espaciado basado en rejilla de 8px — Github Dashboard Design System</p>
+    <section>
+      <h2>Spacing scale · en uso</h2>
+      <div class="scale-table">
+        <div class="scale-row">
+          <span>Token</span>
+          <span>Visual</span>
+          <span style="text-align:right">Valor</span>
+        </div>
+        <div class="scale-row">
+          <span class="scale-token">spacing.3</span>
+          <div style="display:flex;align-items:center"><div class="scale-bar" style="width:12px"></div></div>
+          <span class="scale-px">12 px</span>
+        </div>
+        <div class="scale-row">
+          <span class="scale-token">spacing.4</span>
+          <div style="display:flex;align-items:center"><div class="scale-bar" style="width:16px"></div></div>
+          <span class="scale-px">16 px</span>
+        </div>
+        <div class="scale-row">
+          <span class="scale-token">spacing.5</span>
+          <div style="display:flex;align-items:center"><div class="scale-bar" style="width:20px"></div></div>
+          <span class="scale-px">20 px</span>
+        </div>
+        <div class="scale-row">
+          <span class="scale-token">spacing.6</span>
+          <div style="display:flex;align-items:center"><div class="scale-bar" style="width:24px"></div></div>
+          <span class="scale-px">24 px</span>
+        </div>
+        <div class="scale-row">
+          <span class="scale-token">spacing.7</span>
+          <div style="display:flex;align-items:center"><div class="scale-bar" style="width:28px"></div></div>
+          <span class="scale-px">28 px</span>
+        </div>
+        <div class="scale-row">
+          <span class="scale-token">spacing.8</span>
+          <div style="display:flex;align-items:center"><div class="scale-bar" style="width:32px"></div></div>
+          <span class="scale-px">32 px</span>
+        </div>
+        <div class="scale-row">
+          <span class="scale-token">spacing.10</span>
+          <div style="display:flex;align-items:center"><div class="scale-bar" style="width:40px"></div></div>
+          <span class="scale-px">40 px</span>
+        </div>
+        <div class="scale-row">
+          <span class="scale-token">spacing.12</span>
+          <div style="display:flex;align-items:center"><div class="scale-bar" style="width:48px"></div></div>
+          <span class="scale-px">48 px</span>
+        </div>
+        <div class="scale-row">
+          <span class="scale-token">spacing.14</span>
+          <div style="display:flex;align-items:center"><div class="scale-bar" style="width:56px"></div></div>
+          <span class="scale-px">56 px · topbar-h</span>
+        </div>
+        <div class="scale-row">
+          <span class="scale-token">spacing.16</span>
+          <div style="display:flex;align-items:center"><div class="scale-bar" style="width:64px"></div></div>
+          <span class="scale-px">64 px</span>
+        </div>
+        <div class="scale-row">
+          <span class="scale-token">spacing.64</span>
+          <div style="display:flex;align-items:center"><div class="scale-bar" style="width:256px"></div></div>
+          <span class="scale-px">256 px · sidebar-w</span>
+        </div>
+      </div>
+      <p style="margin-top:12px;font-size:11px;color:var(--muted);font-family:var(--font-mono)">
+        Tailwind class refs · p-3, p-4, px-6, gap-5 …
+      </p>
+    </section>
 
-<div class="section-label">Spacing Scale</div>
-<div class="card">
-  <div class="space-row"><span class="space-label">3px</span><div class="space-bar" style="width:3px"></div><span class="space-desc">Gap interno pills de filtro</span></div>
-  <div class="space-row"><span class="space-label">4px</span><div class="space-bar" style="width:4px"></div><span class="space-desc">Padding block de pill; gap barras del chart</span></div>
-  <div class="space-row"><span class="space-label">8px</span><div class="space-bar" style="width:8px"></div><span class="space-desc">Padding nav item; radius del icono; radius cycle-stat</span></div>
-  <div class="space-row"><span class="space-label">10px</span><div class="space-bar" style="width:10px"></div><span class="space-desc">Gap horizontal de nav item; gap brand icon; gap client row</span></div>
-  <div class="space-row"><span class="space-label">12px</span><div class="space-bar" style="width:12px"></div><span class="space-desc">Gap KPI strip; padding sidebar nav/footer</span></div>
-  <div class="space-row"><span class="space-label">14px</span><div class="space-bar" style="width:14px"></div><span class="space-desc">Padding block card-head</span></div>
-  <div class="space-row"><span class="space-label">16px</span><div class="space-bar" style="width:16px"></div><span class="space-desc">Padding inline card-head; padding KPI card; gap main grid</span></div>
-  <div class="space-row"><span class="space-label">20px</span><div class="space-bar" style="width:20px"></div><span class="space-desc">Gap secciones main content; margen bottom nav-section</span></div>
-  <div class="space-row"><span class="space-label">24px</span><div class="space-bar" style="width:24px"></div><span class="space-desc">Padding main content (desktop)</span></div>
-  <div class="space-row"><span class="space-label">256px</span><div class="space-bar" style="width:80px;opacity:.5"></div><span class="space-desc">--sidebar-w: ancho del sidebar</span></div>
-  <div class="space-row"><span class="space-label">56px</span><div class="space-bar" style="width:56px;opacity:.5"></div><span class="space-desc">--topbar-h: alto del topbar y sidebar-brand</span></div>
-</div>
+    <section>
+      <h2>Border radius · 5 valores</h2>
+      <div class="radius-grid">
+        <div class="radius-card">
+          <div class="radius-sample" style="border-radius:7px"></div>
+          <div class="radius-name">sm · nav / search</div>
+          <div class="radius-value">7 px</div>
+          <div class="radius-token">--radius-sm · rounded-sm</div>
+        </div>
+        <div class="radius-card">
+          <div class="radius-sample" style="border-radius:8px"></div>
+          <div class="radius-name">icon · brand / KPI icon</div>
+          <div class="radius-value">8 px</div>
+          <div class="radius-token">--radius-icon · rounded-icon</div>
+        </div>
+        <div class="radius-card">
+          <div class="radius-sample" style="border-radius:10px"></div>
+          <div class="radius-name">DEFAULT · cards</div>
+          <div class="radius-value">10 px</div>
+          <div class="radius-token">--radius · rounded-md / rounded</div>
+        </div>
+        <div class="radius-card">
+          <div class="radius-sample" style="border-radius:14px"></div>
+          <div class="radius-name">modal · dialog</div>
+          <div class="radius-value">14 px</div>
+          <div class="radius-token">--radius-modal · rounded-lg</div>
+        </div>
+        <div class="radius-card">
+          <div class="radius-sample" style="border-radius:9999px"></div>
+          <div class="radius-name">pill · status / badge</div>
+          <div class="radius-value">9999 px</div>
+          <div class="radius-token">--radius-pill · rounded-pill / full</div>
+        </div>
+      </div>
+    </section>
 
-<div class="section-label">Border Radius</div>
-<div class="card">
-  <div class="radius-grid">
-    <div>
-      <div class="radius-box" style="border-radius:2px"></div>
-      <div class="radius-val" style="text-align:center;margin-top:6px">2px</div>
-      <div class="radius-ctx" style="text-align:center;font-size:9.5px;color:#64748B">Progress track</div>
-    </div>
-    <div>
-      <div class="radius-box" style="border-radius:4px"></div>
-      <div class="radius-val" style="text-align:center;margin-top:6px">4px</div>
-      <div class="radius-ctx" style="text-align:center;font-size:9.5px;color:#64748B">Bar chart tops</div>
-    </div>
-    <div>
-      <div class="radius-box" style="border-radius:6px"></div>
-      <div class="radius-val" style="text-align:center;margin-top:6px">6px</div>
-      <div class="radius-ctx" style="text-align:center;font-size:9.5px;color:#64748B">Filter pill active</div>
-    </div>
-    <div>
-      <div class="radius-box" style="border-radius:7px"></div>
-      <div class="radius-val" style="text-align:center;margin-top:6px">7px</div>
-      <div class="radius-ctx" style="text-align:center;font-size:9.5px;color:#64748B">Nav items, search input</div>
-    </div>
-    <div>
-      <div class="radius-box" style="border-radius:8px"></div>
-      <div class="radius-val" style="text-align:center;margin-top:6px">8px</div>
-      <div class="radius-ctx" style="text-align:center;font-size:9.5px;color:#64748B">Brand/KPI icons, icon btns</div>
-    </div>
-    <div>
-      <div class="radius-box" style="border-radius:10px"></div>
-      <div class="radius-val" style="text-align:center;margin-top:6px">10px</div>
-      <div class="radius-ctx" style="text-align:center;font-size:9.5px;color:#64748B">--radius: cards, KPI cards</div>
-    </div>
-    <div>
-      <div class="radius-box" style="border-radius:14px"></div>
-      <div class="radius-val" style="text-align:center;margin-top:6px">14px</div>
-      <div class="radius-ctx" style="text-align:center;font-size:9.5px;color:#64748B">Modal dialog</div>
-    </div>
-    <div>
-      <div class="radius-box" style="border-radius:999px"></div>
-      <div class="radius-val" style="text-align:center;margin-top:6px">999px</div>
-      <div class="radius-ctx" style="text-align:center;font-size:9.5px;color:#64748B">Status pills, nav badges</div>
-    </div>
-  </div>
-</div>
-
-<div class="section-label">Shadow System</div>
-<div class="card">
-  <div class="shadow-grid">
-    <div>
-      <div class="shadow-box" style="box-shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04)">
-        <div class="shadow-name">Default</div>
-        <div class="shadow-use">Cards, KPI cards</div>
+    <section>
+      <h2>Shadow system · 4 niveles</h2>
+      <div class="shadow-grid">
+        <div class="shadow-card">
+          <div class="shadow-sample" style="box-shadow: var(--shadow)"></div>
+          <div class="shadow-name">default · card</div>
+          <div class="shadow-value">0 1px 3px rgba(0,0,0,.06)<br>0 1px 2px rgba(0,0,0,.04)</div>
+          <div class="shadow-token">--shadow · shadow-default</div>
+        </div>
+        <div class="shadow-card">
+          <div class="shadow-sample" style="box-shadow: var(--shadow-hover)"></div>
+          <div class="shadow-name">hover · KPI lift</div>
+          <div class="shadow-value">0 4px 12px rgba(0,0,0,.10)<br>0 1px 3px rgba(0,0,0,.06)</div>
+          <div class="shadow-token">--shadow-hover · shadow-hover</div>
+        </div>
+        <div class="shadow-card">
+          <div class="shadow-sample" style="box-shadow: var(--shadow-modal)"></div>
+          <div class="shadow-name">modal · dialog</div>
+          <div class="shadow-value">0 24px 64px rgba(0,0,0,.20)</div>
+          <div class="shadow-token">--shadow-modal · shadow-modal</div>
+        </div>
+        <div class="shadow-card">
+          <div class="shadow-sample" style="box-shadow: 0 0 0 3px rgba(15,118,110,.12)"></div>
+          <div class="shadow-name">focus-ring · inputs</div>
+          <div class="shadow-value">0 0 0 3px rgba(15,118,110,.12)</div>
+          <div class="shadow-token">shadow-focus-ring</div>
+        </div>
       </div>
-      <div style="margin-top:6px;font-size:9.5px;color:#64748B;font-family:ui-monospace,Menlo,monospace;line-height:1.4">
-        0 1px 3px rgba(0,0,0,.06)<br>0 1px 2px rgba(0,0,0,.04)
-      </div>
-    </div>
-    <div>
-      <div class="shadow-box" style="box-shadow:0 4px 12px rgba(0,0,0,.10),0 1px 3px rgba(0,0,0,.06)">
-        <div class="shadow-name">Hover Lift</div>
-        <div class="shadow-use">KPI card hover</div>
-      </div>
-      <div style="margin-top:6px;font-size:9.5px;color:#64748B;font-family:ui-monospace,Menlo,monospace;line-height:1.4">
-        0 4px 12px rgba(0,0,0,.10)<br>0 1px 3px rgba(0,0,0,.06)
-      </div>
-    </div>
-    <div>
-      <div class="shadow-box" style="box-shadow:0 24px 64px rgba(0,0,0,.2)">
-        <div class="shadow-name">Modal</div>
-        <div class="shadow-use">Dialog shadow</div>
-      </div>
-      <div style="margin-top:6px;font-size:9.5px;color:#64748B;font-family:ui-monospace,Menlo,monospace;line-height:1.4">
-        0 24px 64px rgba(0,0,0,.20)
-      </div>
-    </div>
-    <div>
-      <div class="shadow-box" style="box-shadow:0 1px 2px rgba(0,0,0,.08)">
-        <div class="shadow-name">Pill Active</div>
-        <div class="shadow-use">Filter pill selected</div>
-      </div>
-      <div style="margin-top:6px;font-size:9.5px;color:#64748B;font-family:ui-monospace,Menlo,monospace;line-height:1.4">
-        0 1px 2px rgba(0,0,0,.08)
-      </div>
-    </div>
-  </div>
-</div>
-
+    </section>
+  </main>
 </body>
 </html>

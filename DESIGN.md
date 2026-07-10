@@ -338,6 +338,161 @@ background: var(--surface);
 box-shadow: 0 0 0 3px rgba(13,148,136,.12);
 ```
 
+**Usos** (2 contextos):
+- **Global**: en el `Topbar` (header sticky), placeholder "Buscar pedido, cliente…". Sirve para búsqueda cross-módulo.
+- **Por-tabla**: en el `CardHeader` de listas admin (categorías, servicios, clientes, etc.) para filtrar la tabla localmente. Siempre combinado con `FilterPill`s cuando aplica. Sin debounce (filtro client-side instantáneo).
+
+Cuando el resultado de la búsqueda es vacío mostrar un `EmptyState` con copy distinto del "no hay datos aún" — ej: "Sin resultados para «xxx»".
+
+### Spinner
+
+Indicador de carga circular. **SIEMPRE** usar `<Spinner />` (primitiva de `@lavanderpro/ui`) en lugar del patrón inline `<span className="inline-block h-X w-X border-2 border-muted/30 border-t-accent rounded-full animate-spin" />`.
+
+Props:
+- `size`: `xs` (12px, inline en texto) · `sm` (14px, dentro de botón primary) · `md` (16px) · `lg` (24px, secciones) · `xl` (32px, hidratación full-screen).
+- `tone`: `default` (muted border + accent top, sobre fondo claro) · `inverse` (white/40 + white top, sobre fondo teal/oscuro) · `muted` (border + muted top, deshabilitado).
+- `label`: texto accesible (default "Cargando…").
+
+Reglas:
+- `xl` + `default` para "página hidratando" (dentro de AppShell).
+- `sm` + `inverse` dentro de botones primary durante submit.
+- `xs`/`sm` + `default` para inputs con loading inline.
+- **SIEMPRE** dentro de un contenedor centrado (`flex items-center justify-center`).
+
+### PageHeader
+
+Wrapper estándar del header de página para admin pages.
+
+```
+[ícono teal] [Título + subtítulo] ........................  [acción]
+```
+
+Props:
+- `icon`: `ReactNode` — ícono lucide 20px (se renderiza dentro de un cuadrado `bg-accent-soft` 36×36).
+- `title`: string — texto principal (text-card font-bold).
+- `subtitle`: string opcional — 1 línea debajo (text-meta text-muted).
+- `action`: `ReactNode` opcional — típicamente `<Button>` alineado a la derecha.
+
+Usar SIEMPRE en lugar del bloque inline `<div className="flex items-center gap-3 min-w-0">` con ícono teal. Garantiza consistencia entre módulos.
+
+### ConfirmDialog
+
+Modal de confirmación reutilizable. Usar SIEMPRE para:
+- Delete (tone: 'danger', confirmLabel: 'Eliminar').
+- Publish / approve (tone: 'primary').
+- Acciones irreversibles en general.
+
+Props:
+- `open`, `onOpenChange`: control.
+- `title`, `description`: `ReactNode` para description (permite JSX).
+- `confirmTone`: 'danger' | 'primary' (default 'danger').
+- `confirmLabel`, `cancelLabel`: textos.
+- `pending`, `pendingLabel`: estado loading con label alternativo.
+- `onConfirm`: callback.
+
+El `description` debe incluir **consecuencias reales** de la acción. Ej: "Los servicios asociados quedarán sin categoría." (no "Esta acción es irreversible." genérico).
+
+**Usos** (2 contextos):
+- **Global**: en el `Topbar` (header sticky), placeholder "Buscar pedido, cliente…". Sirve para búsqueda cross-módulo.
+- **Por-tabla**: en el `CardHeader` de listas admin (categorías, servicios, clientes, etc.) para filtrar la tabla localmente. Siempre combinado con `FilterPill`s cuando aplica. Sin debounce (filtro client-side instantáneo).
+
+Cuando el resultado de la búsqueda es vacío mostrar un `EmptyState` con copy distinto del "no hay datos aún" — ej: "Sin resultados para «xxx»".
+
+### Admin List Pattern (módulos CRUD)
+
+Patrón estándar para páginas de administración (categorías, servicios, clientes, etc.). Composición:
+
+```tsx
+<div className="min-h-screen bg-canvas grid grid-cols-app">
+  <Sidebar />
+  <div className="min-w-0 flex flex-col">
+    <Topbar title="..." breadcrumb="..." />
+    <main id="main" className="flex-1 p-5 sm:p-6">
+
+      {/* 1. Page header: ícono + título + acción primaria */}
+      <div className="flex items-center justify-between gap-3 flex-wrap mb-5">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="h-9 w-9 rounded-icon bg-accent-soft text-accent flex items-center justify-center shrink-0">
+            <Icon className="h-5 w-5" />
+          </div>
+          <div className="min-w-0">
+            <h2 className="text-card font-bold text-fg">Título del módulo</h2>
+            <p className="text-meta text-muted">Subtítulo corto (1 línea).</p>
+          </div>
+        </div>
+        <Button>Crear / Nueva…</Button>
+      </div>
+
+      {/* 2. Card única con la lista */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-3 flex-wrap">
+            <CardTitle>Listado</CardTitle>
+            <FilterGroup> {/* opcional, si aplica */}
+              <FilterPill active>Filtro 1</FilterPill>
+              <FilterPill>Filtro 2</FilterPill>
+            </FilterGroup>
+            <SearchInput value={q} onChange={setQ} placeholder="Buscar…" />
+          </div>
+          <CardMeta>{filtered.length} resultado{filtered.length === 1 ? '' : 's'}</CardMeta>
+        </CardHeader>
+        <CardBody className="p-0">
+          {/* 3. Empty state SI no hay data O si no hay matches */}
+          {filtered.length === 0 ? (
+            <EmptyState
+              icon={<Inbox />}
+              title={q ? `Sin resultados para «${q}»` : 'Sin datos aún'}
+              description={q ? 'Probá con otro término.' : 'Conectá tu primera…'}
+            />
+          ) : (
+            <Table>
+              <TableHeader>
+                <tr>
+                  <TableHead>Col 1</TableHead>
+                  <TableHead>Col 2</TableHead>
+                  <TableHead className="text-right">Acciones</TableHead>
+                </tr>
+              </TableHeader>
+              <TableBody>
+                {filtered.map(row => (
+                  <TableRow key={row.id}>
+                    <TableCell>{row.col1}</TableCell>
+                    <TableCell>{row.col2}</TableCell>
+                    <TableCell className="text-right">
+                      <IconButton icon={<Pencil />} ariaLabel="Editar" onClick={...} />
+                      <IconButton icon={<Trash2 />} ariaLabel="Eliminar" onClick={...} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </CardBody>
+      </Card>
+
+      {/* 4. Modales (crear/editar + confirmar delete) */}
+    </main>
+  </div>
+</div>
+```
+
+**Reglas duras**:
+- **Header**: ícono teal (accent-soft bg) + título (text-card font-bold) + 1 línea de subtítulo (text-meta text-muted). Acción primaria alineada a la derecha.
+- **Card única**: una sola `Card` envolviendo la lista (no múltiples cards). `CardBody className="p-0"` para que la tabla ocupe todo el ancho.
+- **CardHeader**: a la izquierda `CardTitle` (text-card) + opcional `FilterGroup` (filtros categóricos) + `SearchInput` (filtro libre). A la derecha `CardMeta` con el count ("8 categorías" / "3 resultados").
+- **Búsqueda**: SIEMPRE presente. Filtra client-side sobre lo que ya está en memoria (cache offline-first). Sin debounce. Placeholder corto: "Buscar categoría…", "Buscar cliente…", etc.
+- **Empty state dual**:
+  - Sin data aún: "Sin categorías" / "Creá tu primera categoría para empezar a agrupar servicios."
+  - Con búsqueda sin matches: "Sin resultados para «xxx»" / "Probá con otro término."
+- **Acciones inline en la última columna**: `IconButton` con íconos `Pencil` (editar) y `Trash2` (eliminar). Tamaño 34px desktop, 44px mobile. `ariaLabel` específico.
+- **Modales**: dos — uno de form (crear/editar) y uno de confirmación de delete. Patrón de `Modal > Content > Header (Title + Description) + Body (form) + Footer (Cancelar + Submit)`.
+- **Errores del server** (ej. 409 conflicto de nombre único) → `setError('name', { type: 'manual', message: msg })` para mostrar inline en el field.
+
+**Por qué**:
+- Mantiene consistencia visual entre módulos → menos carga cognitiva para el usuario.
+- Permite escanear la lista rápidamente (header + count + filter + table).
+- Offline-first: la búsqueda opera sobre el cache local (Dexie), sin round-trip al server.
+
 ### Icon Button
 
 - 34px square (44px mobile), 8px radius, 1px `--border` border
